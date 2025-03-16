@@ -1,9 +1,5 @@
-<template>
-    <Settings />
-</template>
+<template>TEST</template>
 
-<script setup>
-import Settings from "../../components/Settings.vue";
-</script>
+<script setup></script>
 
 <style scoped></style>

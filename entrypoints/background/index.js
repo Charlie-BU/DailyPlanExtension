@@ -17,7 +17,9 @@ export const ask = async (content) => {
                 Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
-                model: "moonshot-v1-8k",
+                // model: "moonshot-v1-8k",     // Kimi
+                // model: "deepseek-chat",      // DeepSeek V3
+                model: "deepseek-reasoner", // DeepSeek R1
                 messages: [
                     {
                         role: "system",

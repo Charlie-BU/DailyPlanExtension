@@ -11,7 +11,8 @@
         </div>
 
         <div v-if="aiResponse" class="responses-container">
-            <AIResponse :message="aiResponse" />
+            <MonthlyAnalysis v-if="isJsonResponse" :data="parsedResponse" />
+            <AIResponse v-else :message="aiResponse" />
         </div>
 
         <div class="bottom-button">
@@ -49,7 +50,9 @@
 import { watch, ref, onMounted, onBeforeUnmount } from "vue";
 import { ask } from "../entrypoints/background/index";
 import AIResponse from "./AIResponse.vue";
+import MonthlyAnalysis from "./MonthlyAnalysis.vue";
 import { useDebounceFn } from "@vueuse/core";
+import * as prompts from "../utils/prompts";
 
 const props = defineProps({
     allData: {
@@ -70,57 +73,66 @@ watch(
 );
 
 const aiResponse = ref("");
+const isJsonResponse = ref(false);
+const parsedResponse = ref(null);
 
 // 添加节流控制
 const lastCallTime = ref(0);
-const MIN_INTERVAL = 2000; // 最小调用间隔
-
-const callAPI = async (thisPrompt = "这是一条测试prompt") => {
+const MIN_INTERVAL = 2000;
+const isWaiting = () => {
     const now = Date.now();
     if (now - lastCallTime.value < MIN_INTERVAL) {
         aiResponse.value = "请稍等片刻再试...";
-        return;
+        return true;
     }
     lastCallTime.value = now;
+    return false;
+};
+
+const callAPI = async (thisPrompt = prompts.contents.test) => {
+    // 节流逻辑
+    if (isWaiting) return;
+    // 制造加载样式
     aiResponse.value = "waiting";
     try {
         const response = await ask(thisPrompt);
         aiResponse.value = response.choices[0].message.content;
+        console.log(aiResponse.value);
+        try {
+            // 可json解析
+            parsedResponse.value = JSON.parse(aiResponse.value);
+            isJsonResponse.value = true;
+        } catch (e) {
+            // 非json
+            isJsonResponse.value = false;
+        }
     } catch (error) {
         console.error("API调用出错:", error);
-        aiResponse.value = "抱歉，发生了一些错误，请稍后再试。";
+        aiResponse.value = "抱歉，请稍后再试。";
+        isJsonResponse.value = false;
     }
-};
-
-const constructInitPrompt = (extraWords) => {
-    let prompt = `我的本月计划如下，${extraWords}，写成纯文本而不是markdown格式；直接告诉我内容，不要开场白：\n\n`;
-    for (const each of allMonthPlans.value) {
-        prompt += `日期：${each.date}\n已完成计划：${each.plansFinished}\n未完成计划：${each.plansUnfinished}`;
-    }
-    return prompt;
 };
 
 const summerizeMonthPlan = useDebounceFn(async () => {
-    const prompt = constructInitPrompt(
-        "请帮我对本月计划进行总结，包括完成与未完成比例、本月个人状态、近日个人状态等"
+    const prompt = prompts.constructInitPrompt(
+        prompts.contents.summerizeMonthPlan,
+        allMonthPlans.value
     );
     await callAPI(prompt);
 }, 1000);
 
 const depictCharacter = useDebounceFn(async () => {
-    const prompt = constructInitPrompt(
-        "请根据计划内容刻画我的个人形象，越详细越好"
+    const prompt = prompts.constructInitPrompt(
+        prompts.contents.depictCharacter,
+        allMonthPlans.value
     );
     await callAPI(prompt);
 }, 1000);
 
 const optimizePlanToday = useDebounceFn(async () => {
-    const today = new Date();
-    const todayString = `${today.getFullYear()}年${
-        today.getMonth() + 1
-    }月${today.getDate()}日`;
-    const prompt = constructInitPrompt(
-        `今天是${todayString}，请综合之前和之后的计划内容对我今天（${todayString}）的计划进行优化，并给出合理理由`
+    const prompt = prompts.constructInitPrompt(
+        prompts.contents.optimizePlanToday,
+        allMonthPlans.value
     );
     await callAPI(prompt);
 }, 1000);
