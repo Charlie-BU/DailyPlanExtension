@@ -1,5 +1,5 @@
 import { ofetch } from "ofetch";
-import { apiKey, baseURL } from "../../utils/config";
+import { modelName, apiKey, baseURL } from "../../utils/config";
 
 export default defineBackground(() => {
     // 处理来自 popup 和 content script 的消息
@@ -17,9 +17,7 @@ export const ask = async (content) => {
                 Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
-                // model: "moonshot-v1-8k",     // Kimi
-                // model: "deepseek-chat",      // DeepSeek V3
-                model: "deepseek-reasoner", // DeepSeek R1
+                model: modelName,
                 messages: [
                     {
                         role: "system",

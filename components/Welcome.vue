@@ -91,7 +91,7 @@ const isWaiting = () => {
 
 const callAPI = async (thisPrompt = prompts.contents.test) => {
     // 节流逻辑
-    if (isWaiting) return;
+    if (isWaiting()) return;
     // 制造加载样式
     aiResponse.value = "waiting";
     try {

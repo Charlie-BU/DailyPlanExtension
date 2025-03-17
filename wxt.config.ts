@@ -14,7 +14,7 @@ export default defineConfig({
             "notifications", // 发送通知
         ],
         host_permissions: [
-            "https://api.moonshot.cn/*", // 允许访问 Moonshot API
+            // "https://api.moonshot.cn/*", // 允许访问 Moonshot API
         ],
     },
 });
