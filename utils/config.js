@@ -1,5 +1,5 @@
 // 换模型只需要改这里
-let selectModelId = 0;
+let selectModelId = 5;
 
 const modelList = [
     // DeekSeek V3
@@ -36,6 +36,13 @@ const modelList = [
         name: "Atom-7B-Chat",
         baseURL: "https://api.atomecho.cn/v1",
         apiKey: "sk-4c80521296058cd8161b2fb50b4a2b4e",
+    },
+    // 千问
+    {
+        id: 5,
+        name: "qwen-plus",
+        baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        apiKey: "sk-737dabf3742d4bec8f7e0500eb5cb5a3",
     },
 ];
 

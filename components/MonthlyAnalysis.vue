@@ -1,6 +1,5 @@
 <template>
     <div class="analysis-container">
-        <!-- 完成比例卡片 -->
         <div class="analysis-card completion-ratio">
             <h3>📊 完成情况</h3>
             <div class="progress-container">
@@ -13,15 +12,11 @@
             <div class="stats">
                 <div class="stat-item">
                     <span class="label">已完成</span>
-                    <span class="value completed">{{
-                        data.完成与未完成比例.已完成
-                    }}</span>
+                    <span class="value completed">啦啦啦啦滴好次的</span>
                 </div>
                 <div class="stat-item">
                     <span class="label">未完成</span>
-                    <span class="value uncompleted">{{
-                        data.完成与未完成比例.未完成
-                    }}</span>
+                    <span class="value uncompleted">人呢发v把瑞恶霸v</span>
                 </div>
             </div>
         </div>

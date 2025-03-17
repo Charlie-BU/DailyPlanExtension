@@ -8,7 +8,7 @@ export default defineBackground(() => {
     });
 });
 
-export const ask = async (content) => {
+export const ask = async (content, historyDialogs = []) => {
     try {
         const response = await ofetch(`${baseURL}/chat/completions`, {
             method: "POST",
@@ -24,6 +24,7 @@ export const ask = async (content) => {
                         content:
                             "你是一位分析用户日常计划的强大AI，请直接回答用户问题，不要多说其他内容。",
                     },
+                    ...historyDialogs,
                     { role: "user", content: content },
                 ],
                 temperature: 0.3,

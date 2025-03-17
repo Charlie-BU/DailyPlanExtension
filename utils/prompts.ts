@@ -5,11 +5,15 @@ const todayString = `${today.getFullYear()}年${
 
 export const constructInitPrompt = (
     extraWords: String,
-    allMonthPlans: Array<any>
+    allMonthPlans: Array<any>,
+    isFirstCall: Boolean = true
 ) => {
-    let prompt = `我的本月计划如下，${extraWords}，请以各条目为键名，生成相应内容为值，返回json格式方便我解析：\n\n`;
-    for (const each of allMonthPlans) {
-        prompt += `日期：${each.date}\n已完成计划：${each.plansFinished}\n未完成计划：${each.plansUnfinished}`;
+    let prompt = isFirstCall ? "我的本月计划如下" : "";
+    prompt += `${extraWords}，请以各条目为键名，生成相应内容为值，返回json格式方便我解析：\n\n`;
+    if (isFirstCall) {
+        for (const each of allMonthPlans) {
+            prompt += `日期：${each.date}\n已完成计划：${each.plansFinished}\n未完成计划：${each.plansUnfinished}`;
+        }
     }
     return prompt;
 };
@@ -17,6 +21,7 @@ export const constructInitPrompt = (
 // 提示词封装为contents对象
 export const contents = {
     test: "你是什么模型？",
+    // test: "用户 B 是深圳某互联网公司产品经理，需协调 3 个项目进度，同时备考 PMP 认证。请为其设计周计划框架，要求包含工作优先级矩阵、学习时间分配策略及压力调节方案。",
     summerizeMonthPlan:
         "请帮我对本月计划进行总结，条目包括：1.完成与未完成比例；2.本月个人状态；3.近日个人状态等",
     depictCharacter:

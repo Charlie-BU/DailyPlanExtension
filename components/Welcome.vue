@@ -62,6 +62,8 @@ const props = defineProps({
 });
 const allMonthPlans = ref(null);
 
+let isFirstCall = true;
+
 // 更新响应式数据
 watch(
     () => props.allData,
@@ -75,6 +77,8 @@ watch(
 const aiResponse = ref("");
 const isJsonResponse = ref(false);
 const parsedResponse = ref(null);
+// 提供上下文支持
+const historyDialogs = ref([]);
 
 // 添加节流控制
 const lastCallTime = ref(0);
@@ -90,14 +94,20 @@ const isWaiting = () => {
 };
 
 const callAPI = async (thisPrompt = prompts.contents.test) => {
+    console.log(historyDialogs.value);
     // 节流逻辑
     if (isWaiting()) return;
+
     // 制造加载样式
     aiResponse.value = "waiting";
     try {
-        const response = await ask(thisPrompt);
+        const response = await ask(thisPrompt, historyDialogs.value);
         aiResponse.value = response.choices[0].message.content;
-        console.log(aiResponse.value);
+        // 添加上下文
+        const userMessage = { role: "user", content: thisPrompt };
+        historyDialogs.value.push(userMessage);
+        historyDialogs.value.push(response.choices[0].message);
+        isFirstCall = false;
         try {
             // 可json解析
             parsedResponse.value = JSON.parse(aiResponse.value);
@@ -116,7 +126,8 @@ const callAPI = async (thisPrompt = prompts.contents.test) => {
 const summerizeMonthPlan = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.summerizeMonthPlan,
-        allMonthPlans.value
+        allMonthPlans.value,
+        isFirstCall
     );
     await callAPI(prompt);
 }, 1000);
@@ -124,7 +135,8 @@ const summerizeMonthPlan = useDebounceFn(async () => {
 const depictCharacter = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.depictCharacter,
-        allMonthPlans.value
+        allMonthPlans.value,
+        isFirstCall
     );
     await callAPI(prompt);
 }, 1000);
@@ -132,7 +144,8 @@ const depictCharacter = useDebounceFn(async () => {
 const optimizePlanToday = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.optimizePlanToday,
-        allMonthPlans.value
+        allMonthPlans.value,
+        isFirstCall
     );
     await callAPI(prompt);
 }, 1000);
