@@ -9,17 +9,16 @@
             我要做计划AI插件
             <span class="title-icon">✨</span>
         </div>
+        <Toast ref="toastRef" />
 
         <div v-if="aiResponse" class="responses-container">
-            <DetailSections v-if="isJsonResponse" :data="parsedResponse" />
-            <AIResponse v-else :message="aiResponse" />
+            <AIResponse
+                v-if="!isJsonResponse || aiResponse === 'waiting'"
+                :message="aiResponse" />
+            <DetailSections v-else :data="parsedResponse" />
         </div>
 
         <div class="bottom-button">
-            <button class="general-button test-api" @click="() => callAPI()">
-                <i class="button-icon">🔍</i>
-                测试API
-            </button>
             <button
                 class="general-button analyze"
                 @click="() => summerizeMonthPlan()">
@@ -38,6 +37,29 @@
                 <i class="button-icon">✨</i>
                 当日计划优化
             </button>
+            <button
+                class="general-button optimize"
+                @click="() => proposePlanTomorrow()">
+                <i class="button-icon">🌈</i>
+                明日计划建议
+            </button>
+            <button
+                class="general-button optimize"
+                @click="() => predictMyBehavior()">
+                <i class="button-icon">🔮</i>
+                我的行为预测
+            </button>
+            <button
+                class="general-button optimize"
+                @click="() => seekOldPlans()">
+                <i class="button-icon">🕸️</i>
+                陈旧计划寻迹
+            </button>
+
+            <button class="general-button test-api" @click="() => callAPI()">
+                <i class="button-icon">🔍</i>
+                测试API
+            </button>
             <button class="drag-handle">
                 <i class="button-icon">↔️</i>
                 拖拽
@@ -47,12 +69,14 @@
 </template>
 
 <script setup>
-import { watch, ref, onMounted, onBeforeUnmount } from "vue";
+import { watch, ref, onBeforeUnmount } from "vue";
+import { useDebounceFn } from "@vueuse/core";
+
 import { ask } from "../entrypoints/background/index";
+import * as prompts from "../utils/prompts";
 import AIResponse from "./AIResponse.vue";
 import DetailSections from "./DetailSections.vue";
-import { useDebounceFn } from "@vueuse/core";
-import * as prompts from "../utils/prompts";
+import Toast from "./Toast.vue";
 
 const props = defineProps({
     allData: {
@@ -74,6 +98,9 @@ watch(
     { deep: true }
 );
 
+// 双向绑定Toast
+const toastRef = ref(null);
+
 const aiResponse = ref("");
 const isJsonResponse = ref(false);
 const parsedResponse = ref(null);
@@ -83,7 +110,7 @@ const historyDialogs = ref([]);
 // 添加节流控制
 const lastCallTime = ref(0);
 const MIN_INTERVAL = 2000;
-const isWaiting = () => {
+const tooFrequent = () => {
     const now = Date.now();
     if (now - lastCallTime.value < MIN_INTERVAL) {
         aiResponse.value = "请稍等片刻再试...";
@@ -93,9 +120,14 @@ const isWaiting = () => {
     return false;
 };
 
+// 有请求正在执行
+const isWaiting = () => {
+    return aiResponse.value === "waiting";
+};
+
 const callAPI = async (thisPrompt = prompts.contents.test) => {
     // 节流
-    if (isWaiting()) return;
+    if (tooFrequent()) return;
 
     // 制造加载样式
     aiResponse.value = "waiting";
@@ -124,6 +156,10 @@ const callAPI = async (thisPrompt = prompts.contents.test) => {
 };
 
 const summerizeMonthPlan = useDebounceFn(async () => {
+    if (isWaiting()) {
+        toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
+        return;
+    }
     const prompt = prompts.constructInitPrompt(
         prompts.contents.summerizeMonthPlan,
         allMonthPlans.value,
@@ -133,6 +169,10 @@ const summerizeMonthPlan = useDebounceFn(async () => {
 }, 1000);
 
 const depictCharacter = useDebounceFn(async () => {
+    if (isWaiting()) {
+        toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
+        return;
+    }
     const prompt = prompts.constructInitPrompt(
         prompts.contents.depictCharacter,
         allMonthPlans.value,
@@ -142,8 +182,51 @@ const depictCharacter = useDebounceFn(async () => {
 }, 1000);
 
 const optimizePlanToday = useDebounceFn(async () => {
+    if (isWaiting()) {
+        toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
+        return;
+    }
     const prompt = prompts.constructInitPrompt(
         prompts.contents.optimizePlanToday,
+        allMonthPlans.value,
+        isFirstCall
+    );
+    await callAPI(prompt);
+}, 1000);
+
+const proposePlanTomorrow = useDebounceFn(async () => {
+    if (isWaiting()) {
+        toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
+        return;
+    }
+    const prompt = prompts.constructInitPrompt(
+        prompts.contents.proposePlanTomorrow,
+        allMonthPlans.value,
+        isFirstCall
+    );
+    await callAPI(prompt);
+}, 1000);
+
+const predictMyBehavior = useDebounceFn(async () => {
+    if (isWaiting()) {
+        toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
+        return;
+    }
+    const prompt = prompts.constructInitPrompt(
+        prompts.contents.predictMyBehavior,
+        allMonthPlans.value,
+        isFirstCall
+    );
+    await callAPI(prompt);
+}, 1000);
+
+const seekOldPlans = useDebounceFn(async () => {
+    if (isWaiting()) {
+        toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
+        return;
+    }
+    const prompt = prompts.constructInitPrompt(
+        prompts.contents.seekOldPlans,
         allMonthPlans.value,
         isFirstCall
     );
@@ -301,6 +384,16 @@ onBeforeUnmount(() => {
 
         &:active {
             transform: translateY(0);
+        }
+
+        /* 禁用状态 */
+        &:disabled,
+        &.disabled {
+            background: rgba(200, 200, 200, 0.3);
+            color: rgba(44, 62, 80, 0.5);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
         }
     }
 }

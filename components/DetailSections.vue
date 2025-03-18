@@ -1,29 +1,24 @@
 <template>
     <div class="analysis-container">
         <div v-for="(value, key) in data" :key="key" class="analysis-card">
-            <h3>{{ getIcon(key) }} {{ key }}</h3>
+            <h3>
+                {{ utils.getNameAndIcon(key).icon }}
+                {{ utils.getNameAndIcon(key).name }}
+            </h3>
             <div class="content">{{ formatValue(value) }}</div>
         </div>
     </div>
 </template>
 
 <script setup>
+import * as utils from "../utils/utils";
+
 const props = defineProps({
     data: {
         type: Object,
         required: true,
     },
 });
-
-const getIcon = (key) => {
-    const icons = {
-        完成情况: "📊",
-        本月个人状态: "📈",
-        近日个人状态: "📅",
-        其他: "🔍",
-    };
-    return icons[key] || "🔹";
-};
 
 const formatValue = (value) => {
     if (typeof value === "object" && value !== null) {
@@ -52,6 +47,7 @@ const formatValue = (value) => {
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
     border-radius: 16px;
     padding: 20px;
+    margin-left: -15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: #2c3e50;

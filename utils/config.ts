@@ -1,5 +1,5 @@
 // 换模型只需要改这里
-let selectModelId: number = 5;
+let selectModelId: number = 0;
 
 type Model = {
     id: number;
