@@ -1,7 +1,14 @@
 // 换模型只需要改这里
-let selectModelId = 5;
+let selectModelId: number = 5;
 
-const modelList = [
+type Model = {
+    id: number;
+    name: string;
+    baseURL: string;
+    apiKey: string;
+};
+
+const modelList: Model[] = [
     // DeekSeek V3
     {
         id: 0,
@@ -37,7 +44,7 @@ const modelList = [
         baseURL: "https://api.atomecho.cn/v1",
         apiKey: "sk-4c80521296058cd8161b2fb50b4a2b4e",
     },
-    // 千问
+    // 千问plus
     {
         id: 5,
         name: "qwen-plus",
@@ -46,6 +53,9 @@ const modelList = [
     },
 ];
 
-export const modelName = modelList[selectModelId].name;
-export const baseURL = modelList[selectModelId].baseURL;
-export const apiKey = modelList[selectModelId].apiKey;
+const selectedModel: Model =
+    modelList.find((model) => model.id === selectModelId) ?? modelList[0];
+
+export const modelName: string = selectedModel.name;
+export const baseURL: string = selectedModel.baseURL;
+export const apiKey: string = selectedModel.apiKey;

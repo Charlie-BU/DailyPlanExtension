@@ -11,7 +11,7 @@
         </div>
 
         <div v-if="aiResponse" class="responses-container">
-            <MonthlyAnalysis v-if="isJsonResponse" :data="parsedResponse" />
+            <DetailSections v-if="isJsonResponse" :data="parsedResponse" />
             <AIResponse v-else :message="aiResponse" />
         </div>
 
@@ -50,7 +50,7 @@
 import { watch, ref, onMounted, onBeforeUnmount } from "vue";
 import { ask } from "../entrypoints/background/index";
 import AIResponse from "./AIResponse.vue";
-import MonthlyAnalysis from "./MonthlyAnalysis.vue";
+import DetailSections from "./DetailSections.vue";
 import { useDebounceFn } from "@vueuse/core";
 import * as prompts from "../utils/prompts";
 
@@ -94,8 +94,7 @@ const isWaiting = () => {
 };
 
 const callAPI = async (thisPrompt = prompts.contents.test) => {
-    console.log(historyDialogs.value);
-    // 节流逻辑
+    // 节流
     if (isWaiting()) return;
 
     // 制造加载样式
@@ -111,6 +110,7 @@ const callAPI = async (thisPrompt = prompts.contents.test) => {
         try {
             // 可json解析
             parsedResponse.value = JSON.parse(aiResponse.value);
+            console.log(parsedResponse.value);
             isJsonResponse.value = true;
         } catch (e) {
             // 非json

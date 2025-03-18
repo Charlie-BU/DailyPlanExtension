@@ -1,5 +1,6 @@
 import { ofetch } from "ofetch";
 import { modelName, apiKey, baseURL } from "../../utils/config";
+import * as prompts from "../../utils/prompts";
 
 export default defineBackground(() => {
     // 处理来自 popup 和 content script 的消息
@@ -21,14 +22,15 @@ export const ask = async (content, historyDialogs = []) => {
                 messages: [
                     {
                         role: "system",
-                        content:
-                            "你是一位分析用户日常计划的强大AI，请直接回答用户问题，不要多说其他内容。",
+                        content: prompts.contents.systemInitPrompt,
                     },
                     ...historyDialogs,
                     { role: "user", content: content },
                 ],
                 temperature: 0.3,
                 stream: false, // 由于消息传递的限制，暂时不支持流式响应
+                // 返回JSON
+                response_format: { type: "json_object" },
             }),
         });
         return response;
