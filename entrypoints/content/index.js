@@ -12,11 +12,13 @@ export default defineContentScript({
         当页面从历史记录中恢复时（比如用户点击浏览器的后退按钮）*/
     main(ctx) {
         // 检查当前URL是否匹配目标页面
-        // 开发版本请注释掉
-        // if (
-        //     window.location.href !== "https://todos.woyaozuojihua.com/pc/#/view"
-        // )
-        //     return;
+        // 生产环境必须取消注释！
+        if (
+            !window.location.href.startsWith(
+                "https://todos.woyaozuojihua.com/pc/#/view"
+            )
+        )
+            return;
 
         const allMonthPlans = ref([]);
         // 防抖

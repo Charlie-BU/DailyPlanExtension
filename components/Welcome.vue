@@ -402,11 +402,18 @@ onBeforeUnmount(() => {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow-x: hidden;
     resize: both;
+    // 隐藏滚动条
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE & Edge */
 
     &:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     }
+}
+
+.custom-panel::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
 
 .resize-handle {
@@ -446,8 +453,6 @@ onBeforeUnmount(() => {
 .bottom-right {
     bottom: -5px;
     right: -5px;
-    width: 30px;
-    height: 30px;
     cursor: nwse-resize;
 }
 

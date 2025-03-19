@@ -9,7 +9,7 @@
                 {{ utils.getNameAndIcon(responseToRender.func, key).name }}
             </h3>
             <div class="content">
-                <!-- 判断是否是数组对象，如果是则渲染表格，否则直接展示 -->
+                <!-- 对象数组：渲染表格 -->
                 <template
                     v-if="
                         Array.isArray(value) &&
@@ -43,6 +43,36 @@
                         </tbody>
                     </table>
                 </template>
+
+                <!-- 可枚举对象：渲染表格 -->
+                <template
+                    v-else-if="
+                        value &&
+                        typeof value === 'object' &&
+                        Object.keys(value).length
+                    ">
+                    <table class="data-table">
+                        <!-- <thead>
+                            <tr>
+                                <th style="text-align: center">键</th>
+                                <th style="text-align: center">值</th>
+                            </tr>
+                        </thead> -->
+                        <tbody>
+                            <tr
+                                v-for="[key, val] in Object.entries(value)"
+                                :key="key">
+                                <td
+                                    class="object-key-col"
+                                    style="text-align: center">
+                                    {{ key }}
+                                </td>
+                                <td style="text-align: center">{{ val }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </template>
+
                 <template v-else>
                     {{ formatValue(value) }}
                 </template>
@@ -72,16 +102,9 @@ const props = defineProps({
 // template直接渲染
 const formatValue = (value) => {
     // 若返回的是对象数组
-    if (Array.isArray(value) && value !== null) {
-        const parsedValue = value
-            .map((each) =>
-                Object.entries(each)
-                    .map(([key, val]) => `${key}: ${val}`)
-                    .join(" | ")
-            )
-            .join("\n");
-        console.log(parsedValue);
-        return parsedValue;
+    if (typeof value === "object" && value !== null) {
+        console.log(value);
+        // return parsedValue;
     }
     return value;
 };
@@ -124,7 +147,7 @@ const formatValue = (value) => {
 /* 表格样式 */
 .data-table {
     width: 100%;
-    table-layout: fixed; /* 让单元格宽度固定 */
+    // table-layout: fixed; /* 让单元格宽度固定 */
     min-width: 600px; /* 让表格不会太窄 */
     border-collapse: collapse;
     margin-top: 8px;
@@ -134,13 +157,18 @@ const formatValue = (value) => {
 .data-table td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
     word-wrap: break-word;
     overflow: hidden;
-    // white-space: nowrap; /* 防止文本换行，可选 */
 }
 
 .data-table th {
+    white-space: nowrap;
     font-weight: bold;
+}
+
+.object-key-col {
+    text-align: center;
+    font-weight: bold;
+    white-space: nowrap;
 }
 </style>
