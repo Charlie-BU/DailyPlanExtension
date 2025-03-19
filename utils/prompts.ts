@@ -31,7 +31,7 @@ export const constructInitPrompt = (
 };
 
 // 提示词封装为contents对象
-export const contents = {
+export const contents: Record<string, string> = {
     systemInitPrompt: `你是由计划分析专家、数据科学家和心理学家组成的智能体，负责对用户计划数据进行多维度分析。`,
     test: `你是什么模型？请以json格式回答。`,
     summerizeMonthPlan:

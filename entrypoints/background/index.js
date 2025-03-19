@@ -9,6 +9,7 @@ export default defineBackground(() => {
     });
 });
 
+// 在background中发起的请求不会有CORS跨域限制
 export const ask = async (content, historyDialogs = []) => {
     try {
         const response = await ofetch(`${baseURL}/chat/completions`, {
