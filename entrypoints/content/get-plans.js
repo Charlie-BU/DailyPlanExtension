@@ -43,7 +43,6 @@ export const getAllPlansThisMonth = () => {
             plansFinished: plansFinished || [],
             plansUnfinished: plansUnfinished || [],
         };
-        console.log(planObj);
         res.push(planObj);
     }
     if (!tds.length) {
