@@ -49,6 +49,11 @@
             <DetailSections v-else :responseToRender="responseToRender" />
         </div>
 
+        <!-- 饼图 -->
+        <div>
+            <PieChart :chartData="chartData"/> 
+        </div>
+
         <div class="bottom-button">
             <button
                 class="general-button analyze"
@@ -104,6 +109,16 @@ import * as prompts from "../utils/prompts";
 import DetailSections from "./DetailSections.vue";
 import AIResponse from "./AIResponse.vue";
 import Toast from "./Toast.vue";
+import PieChart from "./PieChart.vue";
+
+// 向饼图子组件传参
+const chartData = ref([
+  { value: 1048, name: '搜索引擎' },
+  { value: 735, name: '直接访问' },
+  { value: 580, name: '电子邮件' },
+  { value: 484, name: '联盟广告' },
+  { value: 300, name: '视频广告' }
+])
 
 // 响应式数据，从content/index.js发来
 const props = defineProps({
