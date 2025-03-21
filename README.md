@@ -41,6 +41,25 @@ const toastRef = ref(null);
 toastRef.value.showToast("请耐心等待～", "error");
 </script>
 ```
+### 4. [PieChart.vue](./components/PieChart.vue)
+
+图形组件（饼图）封装在PieChart.vue中，使用方法如下：
+```vue
+<template>
+    <PieChart :chartData="chartData"/> 
+</template>
+
+<script setup>
+const chartData = ref([
+  { value: 1048, name: '搜索引擎' },
+  { value: 735, name: '直接访问' },
+  { value: 580, name: '电子邮件' },
+  { value: 484, name: '联盟广告' },
+  { value: 300, name: '视频广告' }
+])
+</script>
+```
+echarts官网：[https://echarts.apache.org/examples/zh/index.html#chart-type](https://echarts.apache.org/examples/zh/index.html#chart-type)
 
 <br />
 
