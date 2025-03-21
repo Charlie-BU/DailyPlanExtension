@@ -43,13 +43,14 @@ toastRef.value.showToast("请耐心等待～", "error");
 ```
 ### 4. [PieChart.vue](./components/PieChart.vue)
 
-图形组件（饼图）封装在PieChart.vue中，使用方法如下：
+图形组件（饼图）封装在PieChart.vue中,通过父组件向子组件传参,使用方法如下：
 ```vue
 <template>
     <PieChart :chartData="chartData"/> 
 </template>
 
 <script setup>
+import PieChart from "./PieChart.vue";
 const chartData = ref([
   { value: 1048, name: '搜索引擎' },
   { value: 735, name: '直接访问' },
