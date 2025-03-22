@@ -6,7 +6,8 @@
         :style="{
             left: position.x + 'px',
             top: position.y + 'px',
-            backgroundImage: 'url(' + bgImg + ')',
+            width: panelSize.width + 'px',
+            height: panelSize.height + 'px',
         }">
         <div
             class="resize-handle top-left drag-handle"
@@ -34,11 +35,11 @@
             class="resize-handle bottom"
             @mousedown="startResize($event, 'bottom')"></div>
 
-        <div
-            class="title"
-            :style="{
-                backgroundImage: 'url(' + titleImg + ')',
-            }"></div>
+        <div class="title">
+            <span class="title-icon">🌟</span>
+            我要做计划AI插件
+            <span class="title-icon">✨</span>
+        </div>
         <Toast ref="toastRef" />
 
         <div v-if="rawResponse" class="responses-container">
@@ -54,70 +55,47 @@
         </div>
 
         <div class="bottom-button">
-            <div style="display: flex">
-                <button
-                    class="general-button left-one"
-                    :style="{
-                        backgroundImage: 'url(' + buttons[0] + ')',
-                        marginLeft: '-16px',
-                        marginRight: '3px',
-                    }"
-                    @click="() => summerizeMonthPlan()">
-                    <p class="btn-text" style="margin-top: -8px">
-                        当月计划分析
-                    </p>
-                </button>
-                <button
-                    class="general-button right-one"
-                    :style="{
-                        backgroundImage: 'url(' + buttons[1] + ')',
-                        marginTop: '-3px',
-                    }"
-                    @click="() => depictCharacter()">
-                    <p class="btn-text">个人形象刻画</p>
-                </button>
-            </div>
+            <button
+                class="general-button analyze"
+                @click="() => summerizeMonthPlan()">
+                <i class="button-icon">📅</i>
+                当月计划分析
+            </button>
+            <button
+                class="general-button character"
+                @click="() => depictCharacter()">
+                <i class="button-icon">👤</i>
+                个人形象刻画
+            </button>
+            <button
+                class="general-button optimize"
+                @click="() => optimizePlanToday()">
+                <i class="button-icon">✨</i>
+                当日计划优化
+            </button>
+            <button
+                class="general-button optimize"
+                @click="() => proposePlanTomorrow()">
+                <i class="button-icon">🌈</i>
+                明日计划建议
+            </button>
+            <button
+                class="general-button optimize"
+                @click="() => predictMyBehavior()">
+                <i class="button-icon">🔮</i>
+                我的行为预测
+            </button>
+            <button
+                class="general-button optimize"
+                @click="() => seekOldPlans()">
+                <i class="button-icon">🕸️</i>
+                陈旧计划寻迹
+            </button>
 
-            <div style="display: flex">
-                <button
-                    class="general-button left-one"
-                    :style="{
-                        backgroundImage: 'url(' + buttons[2] + ')',
-                    }"
-                    @click="() => optimizePlanToday()">
-                    <p class="btn-text" style="margin-top: -8px">
-                        当日计划优化
-                    </p>
-                </button>
-                <button
-                    class="general-button right-one"
-                    :style="{
-                        backgroundImage: 'url(' + buttons[3] + ')',
-                        marginTop: '-3px',
-                    }"
-                    @click="() => proposePlanTomorrow()">
-                    <p class="btn-text">明日计划建议</p>
-                </button>
-            </div>
-
-            <div style="display: flex">
-                <button
-                    class="general-button left-one"
-                    :style="{
-                        backgroundImage: 'url(' + buttons[4] + ')',
-                    }"
-                    @click="() => predictMyBehavior()">
-                    <p class="btn-text">我的行为预测</p>
-                </button>
-                <button
-                    class="general-button right-one"
-                    :style="{
-                        backgroundImage: 'url(' + buttons[5] + ')',
-                    }"
-                    @click="() => seekOldPlans()">
-                    <p class="btn-text" style="margin-top: 2px">陈旧计划寻迹</p>
-                </button>
-            </div>
+            <!-- <button class="general-button test-api" @click="() => callAPI()">
+                <i class="button-icon">🔍</i>
+                测试API
+            </button> -->
         </div>
     </div>
 </template>
@@ -132,15 +110,6 @@ import DetailSections from "./DetailSections.vue";
 import AIResponse from "./AIResponse.vue";
 import Toast from "./Toast.vue";
 import PieChart from "./PieChart.vue";
-
-// assets导入
-import bgImg from "../assets/images/background.png";
-import titleImg from "../assets/images/title.png";
-// 批量导入全部按钮
-const images = import.meta.glob("../assets/images/button/*.png", {
-    eager: true,
-});
-const buttons = ref(Object.values(images).map((mod) => mod.default));
 
 // 响应式数据，从content/index.js发来
 const props = defineProps({
@@ -434,14 +403,12 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 .custom-panel {
     position: absolute;
-    background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%) no-repeat
-        center;
+    background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%);
     max-height: 100vh;
     min-width: 235px;
     min-height: 114px;
-    // 最大不能超过背景图片
-    max-width: 351px;
-    max-height: 676px;
+    width: auto;
+    height: auto;
     padding: 20px;
     box-sizing: border-box;
     z-index: 999;
@@ -537,14 +504,13 @@ onBeforeUnmount(() => {
 }
 
 .title {
-    width: 308px;
-    height: 178px;
     text-align: center;
     font-size: 20px;
     font-weight: 600;
     color: #2c3e50;
     margin-bottom: 20px;
     padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -558,10 +524,10 @@ onBeforeUnmount(() => {
 }
 
 .general-button {
-    width: 165px;
-    height: 88px;
-    background: no-repeat center;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 12px 20px;
     margin-bottom: 12px;
+    margin-right: 10px;
     text-align: center;
     border-radius: 15px;
     border: none;
@@ -574,6 +540,12 @@ onBeforeUnmount(() => {
     align-items: center;
     gap: 8px;
 
+    &:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
     &:active {
         transform: translateY(0);
     }
@@ -581,24 +553,6 @@ onBeforeUnmount(() => {
     .button-icon {
         font-style: normal;
     }
-
-    .btn-text {
-        margin-left: 55px;
-        font-size: 15px;
-        font-weight: bold;
-        color: #1e3a5f;
-        text-shadow: 1px 1px 3px rgba(99, 83, 83, 0.7);
-        letter-spacing: 0.5px;
-        transition: color 0.3s ease-in-out;
-    }
-}
-
-.left-one {
-    margin-left: -11px;
-}
-
-.right-one {
-    margin-left: -6px;
 }
 
 .bottom-button {

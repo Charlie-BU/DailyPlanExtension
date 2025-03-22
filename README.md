@@ -41,26 +41,29 @@ const toastRef = ref(null);
 toastRef.value.showToast("请耐心等待～", "error");
 </script>
 ```
+
 ### 4. [PieChart.vue](./components/PieChart.vue)
 
-图形组件（饼图）封装在PieChart.vue中,通过父组件向子组件传参,使用方法如下：
+图形组件（饼图）封装在 PieChart.vue 中，通过父组件向子组件传参，使用方法如下：
+
 ```vue
 <template>
-    <PieChart :chartData="chartData"/> 
+    <PieChart :chartData="chartData" />
 </template>
 
 <script setup>
 import PieChart from "./PieChart.vue";
 const chartData = ref([
-  { value: 1048, name: '搜索引擎' },
-  { value: 735, name: '直接访问' },
-  { value: 580, name: '电子邮件' },
-  { value: 484, name: '联盟广告' },
-  { value: 300, name: '视频广告' }
-])
+    { value: 1048, name: "搜索引擎" },
+    { value: 735, name: "直接访问" },
+    { value: 580, name: "电子邮件" },
+    { value: 484, name: "联盟广告" },
+    { value: 300, name: "视频广告" },
+]);
 </script>
 ```
-echarts官网：[https://echarts.apache.org/examples/zh/index.html#chart-type](https://echarts.apache.org/examples/zh/index.html#chart-type)
+
+[echarts 官网](https://echarts.apache.org/examples/zh/index.html#chart-type)
 
 <br />
 
@@ -114,4 +117,5 @@ echarts官网：[https://echarts.apache.org/examples/zh/index.html#chart-type](h
 
 ## 文档更新时间
 
+-   2025.03.21：陈奕名
 -   2025.03.19 15:50：卜天
