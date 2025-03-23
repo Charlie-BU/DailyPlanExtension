@@ -69,7 +69,7 @@
             </template>
 
             <template v-else>
-                {{ formatValue(value) }}
+                {{ value }}
             </template>
         </div>
     </div>
@@ -94,14 +94,14 @@ const props = defineProps({
 });
 
 // template直接渲染
-const formatValue = (value) => {
-    // 若返回的是对象数组
-    if (typeof value === "object" && value !== null) {
-        console.log(value);
-        // return parsedValue;
-    }
-    return value;
-};
+// const formatValue = (value) => {
+//     // 若返回的是对象数组
+//     if (typeof value === "object" && value !== null) {
+//         console.log(value);
+//         // return parsedValue;
+//     }
+//     return value;
+// };
 </script>
 
 <style lang="scss" scoped>
@@ -124,13 +124,13 @@ const formatValue = (value) => {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 1.2rem;
+        font-size: 17px;
         font-weight: bold;
         margin-bottom: 10px;
     }
 
     .content {
-        font-size: 1rem;
+        font-size: 15px;
         color: #34495e;
         line-height: 1.5;
         overflow-x: auto; /* 让表格超出时可滚动 */

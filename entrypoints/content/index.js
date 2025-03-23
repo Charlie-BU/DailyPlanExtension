@@ -4,7 +4,6 @@ import * as getData from "./get-plans";
 import { useDebounceFn } from "@vueuse/core/index.cjs";
 
 export default defineContentScript({
-    // matches: ["https://todos.woyaozuojihua.com/pc/*"],
     matches: ["*://*/*"],
     /* main 函数会在以下时机触发：
         当匹配的网页完成加载后（页面 DOM 构建完成时）

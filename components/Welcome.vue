@@ -41,12 +41,20 @@
             }"></div>
         <Toast ref="toastRef" />
 
-        <div v-if="rawResponse" class="responses-container">
-            <AIResponse
-                v-if="!isJsonResponse || rawResponse === 'waiting'"
-                :message="rawResponse" />
-            <DetailSections v-else :responseToRender="responseToRender" />
-        </div>
+        <transition name="fade-slide">
+            <div v-if="currFunc" class="func-title">
+                <span>{{ currFunc }}</span>
+            </div>
+        </transition>
+
+        <transition name="fade-slide">
+            <div v-if="rawResponse" class="responses-container">
+                <AIResponse
+                    v-if="!isJsonResponse || rawResponse === 'waiting'"
+                    :message="rawResponse" />
+                <DetailSections v-else :responseToRender="responseToRender" />
+            </div>
+        </transition>
 
         <!-- 饼图 -->
         <div>
@@ -164,6 +172,8 @@ watch(
 // 双向绑定Toast
 const toastRef = ref(null);
 
+const currFunc = ref("");
+
 const rawResponse = ref("");
 const isJsonResponse = ref(false);
 const parsedResponse = ref(null);
@@ -245,6 +255,7 @@ const summerizeMonthPlan = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "当月计划分析";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.summerizeMonthPlan,
         allMonthPlans.value,
@@ -258,6 +269,7 @@ const depictCharacter = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "个人形象刻画";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.depictCharacter,
         allMonthPlans.value,
@@ -271,6 +283,7 @@ const optimizePlanToday = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "当日计划优化";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.optimizePlanToday,
         allMonthPlans.value,
@@ -284,6 +297,7 @@ const proposePlanTomorrow = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "明日计划建议";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.proposePlanTomorrow,
         allMonthPlans.value,
@@ -297,6 +311,7 @@ const predictMyBehavior = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "我的行为预测";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.predictMyBehavior,
         allMonthPlans.value,
@@ -310,6 +325,7 @@ const seekOldPlans = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "陈旧计划寻迹";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.seekOldPlans,
         allMonthPlans.value,
@@ -557,6 +573,52 @@ onBeforeUnmount(() => {
     }
 }
 
+.fade-slide-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.fade-slide-enter-to {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fade-slide-enter-active {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* 离开动画 */
+.fade-slide-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.fade-slide-leave-active {
+    transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+}
+
+.func-title {
+    width: 303px;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 12px;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.func-title span {
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #8989e8, #cf7dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .general-button {
     width: 165px;
     height: 88px;
@@ -584,11 +646,13 @@ onBeforeUnmount(() => {
 
     .btn-text {
         margin-left: 55px;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: bold;
-        color: #1e3a5f;
-        text-shadow: 1px 1px 3px rgba(99, 83, 83, 0.7);
-        letter-spacing: 0.5px;
+        background: linear-gradient(90deg, #8989e8, #cf7dff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        // color: #1e3a5f;
+        // text-shadow: 1px 1px 3px rgba(99, 83, 83, 0.7);
         transition: color 0.3s ease-in-out;
     }
 }
