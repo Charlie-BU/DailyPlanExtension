@@ -21,11 +21,9 @@
         <Toast ref="toastRef" />
 
         <transition name="fade-slide">
-            <!-- <div class="top-title"> -->
             <div v-if="currFunc" class="func-title">
                 <span>{{ currFunc }}</span>
             </div>
-            <!-- </div> -->
         </transition>
 
         <transition name="fade-slide">
@@ -44,7 +42,7 @@
 
         <div class="bottom-button">
             <button
-                class="general-button left-one"
+                class="general-button"
                 :style="{
                     backgroundImage: 'url(' + buttons[0] + ')',
                     marginLeft: '-16px',
@@ -54,17 +52,18 @@
                 <p class="btn-text" style="margin-top: -8px">当月计划分析</p>
             </button>
             <button
-                class="general-button right-one"
+                class="general-button"
                 :style="{
                     backgroundImage: 'url(' + buttons[1] + ')',
                     marginTop: '-3px',
+                    marginRight: '-6px',
                 }"
                 @click="() => depictCharacter()">
                 <p class="btn-text">个人形象刻画</p>
             </button>
 
             <button
-                class="general-button left-one"
+                class="general-button"
                 :style="{
                     backgroundImage: 'url(' + buttons[2] + ')',
                 }"
@@ -72,7 +71,7 @@
                 <p class="btn-text" style="margin-top: -8px">当日计划优化</p>
             </button>
             <button
-                class="general-button right-one"
+                class="general-button"
                 :style="{
                     backgroundImage: 'url(' + buttons[3] + ')',
                     marginTop: '-3px',
@@ -82,7 +81,7 @@
             </button>
 
             <button
-                class="general-button left-one"
+                class="general-button"
                 :style="{
                     backgroundImage: 'url(' + buttons[4] + ')',
                 }"
@@ -90,7 +89,7 @@
                 <p class="btn-text">我的行为预测</p>
             </button>
             <button
-                class="general-button right-one"
+                class="general-button"
                 :style="{
                     backgroundImage: 'url(' + buttons[5] + ')',
                 }"
@@ -355,15 +354,15 @@ onBeforeUnmount(() => {
     background-position: center;
     background-repeat: no-repeat; /* 或 repeat */
     // 初始宽高
-    width: 370px;
-    height: 620px;
+    width: 390px;
+    height: 580px;
     // 最小宽高
     min-width: 235px;
     min-height: 114px;
     // 最大宽高
     max-width: 1200px;
     max-height: 800px;
-    padding: 20px;
+    padding: 0 20px;
     box-sizing: border-box;
 
     z-index: 999;
@@ -379,8 +378,8 @@ onBeforeUnmount(() => {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE & Edge */
 
-    //子组件排列
-    //display: flex;
+    // 子组件排列
+    // display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -469,7 +468,7 @@ onBeforeUnmount(() => {
 
 .func-title {
     background: no-repeat center;
-    width: 320px;
+    width: 100%;
     align-items: center;
     padding: 12px 24px;
     border-radius: 12px;
@@ -528,14 +527,6 @@ onBeforeUnmount(() => {
     }
 }
 
-.left-one {
-    margin-left: -11px;
-}
-
-.right-one {
-    margin-left: -6px;
-}
-
 .top-title {
     display: flex;
     flex-wrap: wrap;
@@ -557,7 +548,7 @@ onBeforeUnmount(() => {
 .responses-container {
     margin: 20px 0;
     max-height: 300px;
-    width: 320px;
+    width: 100%;
     overflow-y: auto;
     padding: 15px;
     background: rgba(255, 255, 255, 0.15);
