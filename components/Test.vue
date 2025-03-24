@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-import { Button } from "vant";
 import { defineProps, watch, ref, onMounted, onBeforeUnmount } from "vue";
 
 const props = defineProps({
