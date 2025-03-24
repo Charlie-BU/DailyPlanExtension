@@ -11,28 +11,6 @@
         <div
             class="resize-handle top-left drag-handle"
             @mousedown="startDrag"></div>
-        <div
-            class="resize-handle top-right"
-            @mousedown="startResize($event, 'top-right')"></div>
-        <div
-            class="resize-handle bottom-left"
-            @mousedown="startResize($event, 'bottom-left')"></div>
-        <div
-            class="resize-handle bottom-right"
-            @mousedown="startResize($event, 'bottom-right')"></div>
-
-        <div
-            class="resize-handle left"
-            @mousedown="startResize($event, 'left')"></div>
-        <div
-            class="resize-handle right"
-            @mousedown="startResize($event, 'right')"></div>
-        <div
-            class="resize-handle top"
-            @mousedown="startResize($event, 'top')"></div>
-        <div
-            class="resize-handle bottom"
-            @mousedown="startResize($event, 'bottom')"></div>
 
         <div
             class="title"
@@ -368,82 +346,9 @@ const stopDrag = () => {
     document.removeEventListener("mouseup", stopDrag);
 };
 
-// 拖拽调整大小
-const startResize = (e, direction) => {
-    isResizing.value = true;
-    resizeDirection.value = direction;
-    dragOffset.value = { x: e.clientX, y: e.clientY };
-
-    document.addEventListener("mousemove", onResize);
-    document.addEventListener("mouseup", stopResize);
-
-    e.stopPropagation();
-};
-
-const onResize = (e) => {
-    if (!isResizing.value) return;
-
-    const dx = e.clientX - dragOffset.value.x;
-    const dy = e.clientY - dragOffset.value.y;
-    let newWidth = panelSize.value.width;
-    let newHeight = panelSize.value.height;
-    let newX = position.value.x;
-    let newY = position.value.y;
-
-    switch (resizeDirection.value) {
-        case "right":
-            newWidth = Math.max(200, panelSize.value.width + dx);
-            break;
-        case "left":
-            newWidth = Math.max(200, panelSize.value.width - dx);
-            newX = position.value.x + dx;
-            break;
-        case "bottom":
-            newHeight = Math.max(150, panelSize.value.height + dy);
-            break;
-        case "top":
-            newHeight = Math.max(150, panelSize.value.height - dy);
-            newY = position.value.y + dy;
-            break;
-        case "top-left":
-            newWidth = Math.max(200, panelSize.value.width - dx);
-            newHeight = Math.max(150, panelSize.value.height - dy);
-            newX = position.value.x + dx;
-            newY = position.value.y + dy;
-            break;
-        case "top-right":
-            newWidth = Math.max(200, panelSize.value.width + dx);
-            newHeight = Math.max(150, panelSize.value.height - dy);
-            newY = position.value.y + dy;
-            break;
-        case "bottom-left":
-            newWidth = Math.max(200, panelSize.value.width - dx);
-            newHeight = Math.max(150, panelSize.value.height + dy);
-            newX = position.value.x + dx;
-            break;
-        case "bottom-right":
-            newWidth = Math.max(200, panelSize.value.width + dx);
-            newHeight = Math.max(150, panelSize.value.height + dy);
-            break;
-    }
-
-    panelSize.value = { width: newWidth, height: newHeight };
-    position.value = { x: newX, y: newY };
-
-    dragOffset.value = { x: e.clientX, y: e.clientY };
-};
-
-const stopResize = () => {
-    isResizing.value = false;
-    document.removeEventListener("mousemove", onResize);
-    document.removeEventListener("mouseup", stopResize);
-};
-
 onBeforeUnmount(() => {
     document.removeEventListener("mousemove", onDrag);
     document.removeEventListener("mouseup", stopDrag);
-    document.removeEventListener("mousemove", onResize);
-    document.removeEventListener("mouseup", stopResize);
 });
 </script>
 
@@ -452,7 +357,6 @@ onBeforeUnmount(() => {
     position: absolute;
     background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%) no-repeat
         center;
-    max-height: 100vh;
     min-width: 235px;
     min-height: 114px;
     // 最大不能超过背景图片
@@ -506,50 +410,6 @@ onBeforeUnmount(() => {
     top: -5px;
     left: -5px;
     cursor: move;
-}
-.top-right {
-    top: -5px;
-    right: -5px;
-    cursor: nesw-resize;
-}
-.bottom-left {
-    bottom: -5px;
-    left: -5px;
-    cursor: nesw-resize;
-}
-.bottom-right {
-    bottom: -5px;
-    right: -5px;
-    cursor: nwse-resize;
-}
-
-.left {
-    top: 50%;
-    left: -5px;
-    height: 100%;
-    transform: translateY(-50%);
-    cursor: ew-resize;
-}
-.right {
-    top: 50%;
-    right: -5px;
-    height: 100%;
-    transform: translateY(-50%);
-    cursor: ew-resize;
-}
-.top {
-    left: 50%;
-    top: -5px;
-    width: 100%;
-    transform: translateX(-50%);
-    cursor: ns-resize;
-}
-.bottom {
-    left: 50%;
-    bottom: -5px;
-    width: 100%;
-    transform: translateX(-50%);
-    cursor: ns-resize;
 }
 
 .title {
