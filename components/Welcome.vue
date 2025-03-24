@@ -21,11 +21,11 @@
         <Toast ref="toastRef" />
 
         <transition name="fade-slide">
-            <div class="top-title">
-                <div v-if="currFunc" class="func-title">
-                    <span>{{ currFunc }}</span>
-                </div>
+            <!-- <div class="top-title"> -->
+            <div v-if="currFunc" class="func-title">
+                <span>{{ currFunc }}</span>
             </div>
+            <!-- </div> -->
         </transition>
 
         <transition name="fade-slide">
@@ -469,7 +469,7 @@ onBeforeUnmount(() => {
 
 .func-title {
     background: no-repeat center;
-    width: 303px;
+    width: 320px;
     align-items: center;
     padding: 12px 24px;
     border-radius: 12px;
@@ -557,6 +557,7 @@ onBeforeUnmount(() => {
 .responses-container {
     margin: 20px 0;
     max-height: 300px;
+    width: 320px;
     overflow-y: auto;
     padding: 15px;
     background: rgba(255, 255, 255, 0.15);
