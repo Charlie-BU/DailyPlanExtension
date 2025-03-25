@@ -6,96 +6,96 @@
         :style="{
             left: position.x + 'px',
             top: position.y + 'px',
-            width: panelSize.width + 'px',
-            height: panelSize.height + 'px',
+            backgroundImage: 'url(' + bgImg + ')',
         }">
         <div
             class="resize-handle top-left drag-handle"
             @mousedown="startDrag"></div>
-        <div
-            class="resize-handle top-right"
-            @mousedown="startResize($event, 'top-right')"></div>
-        <div
-            class="resize-handle bottom-left"
-            @mousedown="startResize($event, 'bottom-left')"></div>
-        <div
-            class="resize-handle bottom-right"
-            @mousedown="startResize($event, 'bottom-right')"></div>
-
-        <div
-            class="resize-handle left"
-            @mousedown="startResize($event, 'left')"></div>
-        <div
-            class="resize-handle right"
-            @mousedown="startResize($event, 'right')"></div>
-        <div
-            class="resize-handle top"
-            @mousedown="startResize($event, 'top')"></div>
-        <div
-            class="resize-handle bottom"
-            @mousedown="startResize($event, 'bottom')"></div>
-
-        <div class="title">
-            <span class="title-icon">🌟</span>
-            我要做计划AI插件
-            <span class="title-icon">✨</span>
+        <div class="top-title">
+            <div
+                class="title"
+                :style="{
+                    backgroundImage: 'url(' + titleImg + ')',
+                }"></div>
         </div>
         <Toast ref="toastRef" />
 
-        <div v-if="rawResponse" class="responses-container">
-            <AIResponse
-                v-if="!isJsonResponse || rawResponse === 'waiting'"
-                :message="rawResponse" />
-            <DetailSections v-else :responseToRender="responseToRender" />
-        </div>
+        <transition name="fade-slide">
+            <div v-if="currFunc" class="func-title">
+                <span>{{ currFunc }}</span>
+            </div>
+        </transition>
+
+        <transition name="fade-slide">
+            <div v-if="rawResponse" class="responses-container">
+                <AIResponse
+                    v-if="!isJsonResponse || rawResponse === 'waiting'"
+                    :message="rawResponse" />
+                <DetailSections v-else :responseToRender="responseToRender" />
+            </div>
+        </transition>
 
         <!-- 饼图 -->
         <div>
-            <PieChart :chartData="chartData"/> 
+            <PieChart v-if="chartData" :chartData="chartData" />
         </div>
 
         <div class="bottom-button">
             <button
-                class="general-button analyze"
+                class="general-button"
+                :style="{
+                    backgroundImage: 'url(' + buttons[0] + ')',
+                    marginLeft: '-16px',
+                    marginRight: '3px',
+                }"
                 @click="() => summerizeMonthPlan()">
-                <i class="button-icon">📅</i>
-                当月计划分析
+                <p class="btn-text" style="margin-top: -8px">当月计划分析</p>
             </button>
             <button
-                class="general-button character"
+                class="general-button"
+                :style="{
+                    backgroundImage: 'url(' + buttons[1] + ')',
+                    marginTop: '-3px',
+                    marginRight: '-6px',
+                }"
                 @click="() => depictCharacter()">
-                <i class="button-icon">👤</i>
-                个人形象刻画
-            </button>
-            <button
-                class="general-button optimize"
-                @click="() => optimizePlanToday()">
-                <i class="button-icon">✨</i>
-                当日计划优化
-            </button>
-            <button
-                class="general-button optimize"
-                @click="() => proposePlanTomorrow()">
-                <i class="button-icon">🌈</i>
-                明日计划建议
-            </button>
-            <button
-                class="general-button optimize"
-                @click="() => predictMyBehavior()">
-                <i class="button-icon">🔮</i>
-                我的行为预测
-            </button>
-            <button
-                class="general-button optimize"
-                @click="() => seekOldPlans()">
-                <i class="button-icon">🕸️</i>
-                陈旧计划寻迹
+                <p class="btn-text">个人形象刻画</p>
             </button>
 
-            <!-- <button class="general-button test-api" @click="() => callAPI()">
-                <i class="button-icon">🔍</i>
-                测试API
-            </button> -->
+            <button
+                class="general-button"
+                :style="{
+                    backgroundImage: 'url(' + buttons[2] + ')',
+                }"
+                @click="() => optimizePlanToday()">
+                <p class="btn-text" style="margin-top: -8px">当日计划优化</p>
+            </button>
+            <button
+                class="general-button"
+                :style="{
+                    backgroundImage: 'url(' + buttons[3] + ')',
+                    marginTop: '-3px',
+                }"
+                @click="() => proposePlanTomorrow()">
+                <p class="btn-text">明日计划建议</p>
+            </button>
+
+            <button
+                class="general-button"
+                :style="{
+                    backgroundImage: 'url(' + buttons[4] + ')',
+                }"
+                @click="() => predictMyBehavior()">
+                <p class="btn-text">我的行为预测</p>
+            </button>
+            <button
+                class="general-button"
+                :style="{
+                    backgroundImage: 'url(' + buttons[5] + ')',
+                }"
+                @click="() => seekOldPlans()">
+                <p class="btn-text" style="margin-top: 2px">陈旧计划寻迹</p>
+            </button>
         </div>
     </div>
 </template>
@@ -111,14 +111,14 @@ import AIResponse from "./AIResponse.vue";
 import Toast from "./Toast.vue";
 import PieChart from "./PieChart.vue";
 
-// 向饼图子组件传参
-const chartData = ref([
-  { value: 1048, name: '搜索引擎' },
-  { value: 735, name: '直接访问' },
-  { value: 580, name: '电子邮件' },
-  { value: 484, name: '联盟广告' },
-  { value: 300, name: '视频广告' }
-])
+// assets导入
+import bgImg from "../assets/images/background.png";
+import titleImg from "../assets/images/title.png";
+// 批量导入全部按钮
+const images = import.meta.glob("../assets/images/button/*.png", {
+    eager: true,
+});
+const buttons = ref(Object.values(images).map((mod) => mod.default));
 
 // 响应式数据，从content/index.js发来
 const props = defineProps({
@@ -127,7 +127,8 @@ const props = defineProps({
         required: true,
     },
 });
-const allMonthPlans = ref(null);
+
+const allMonthPlans = props.allData.allMonthPlans; // 不能初始化为ref(null)，否则async/await风格不能出发watch，无法更新值
 
 // 实时更新响应式数据
 watch(
@@ -142,12 +143,26 @@ watch(
 // 双向绑定Toast
 const toastRef = ref(null);
 
+const currFunc = ref("");
+
 const rawResponse = ref("");
 const isJsonResponse = ref(false);
 const parsedResponse = ref(null);
 const responseToRender = ref(null); // 封装parsedResponse，添加相应功能名
 // 提供上下文支持
 const historyDialogs = ref([]);
+
+// 向饼图子组件传参
+const chartData = ref(null);
+// const testPieChart = () => {
+//     chartData.value = [
+//         { value: 1048, name: "搜索引擎" },
+//         { value: 735, name: "直接访问" },
+//         { value: 580, name: "电子邮件" },
+//         { value: 484, name: "联盟广告" },
+//         { value: 300, name: "视频广告" },
+//     ];
+// };
 
 // 添加节流控制
 // TODO：是否需要封装throttle放到utils.ts？
@@ -211,6 +226,7 @@ const summerizeMonthPlan = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "当月计划分析";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.summerizeMonthPlan,
         allMonthPlans.value,
@@ -224,6 +240,7 @@ const depictCharacter = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "个人形象刻画";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.depictCharacter,
         allMonthPlans.value,
@@ -237,6 +254,7 @@ const optimizePlanToday = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "当日计划优化";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.optimizePlanToday,
         allMonthPlans.value,
@@ -250,6 +268,7 @@ const proposePlanTomorrow = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "明日计划建议";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.proposePlanTomorrow,
         allMonthPlans.value,
@@ -263,6 +282,7 @@ const predictMyBehavior = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "我的行为预测";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.predictMyBehavior,
         allMonthPlans.value,
@@ -276,6 +296,7 @@ const seekOldPlans = useDebounceFn(async () => {
         toastRef.value.showToast("当前AI正在分析中，请耐心等待～", "error");
         return;
     }
+    currFunc.value = "陈旧计划寻迹";
     const prompt = prompts.constructInitPrompt(
         prompts.contents.seekOldPlans,
         allMonthPlans.value,
@@ -284,7 +305,7 @@ const seekOldPlans = useDebounceFn(async () => {
     await callAPI("seekOldPlans", prompt);
 }, 1000);
 
-// 拖拽 / 改变尺寸相关逻辑
+// 拖拽 / 尺寸改变相关逻辑
 const position = ref({ x: 100, y: 100 });
 const panelSize = ref({ width: 400, height: 300 });
 const isDragging = ref(false);
@@ -318,96 +339,33 @@ const stopDrag = () => {
     document.removeEventListener("mouseup", stopDrag);
 };
 
-// 拖拽调整大小
-const startResize = (e, direction) => {
-    isResizing.value = true;
-    resizeDirection.value = direction;
-    dragOffset.value = { x: e.clientX, y: e.clientY };
-
-    document.addEventListener("mousemove", onResize);
-    document.addEventListener("mouseup", stopResize);
-
-    e.stopPropagation();
-};
-
-const onResize = (e) => {
-    if (!isResizing.value) return;
-
-    const dx = e.clientX - dragOffset.value.x;
-    const dy = e.clientY - dragOffset.value.y;
-    let newWidth = panelSize.value.width;
-    let newHeight = panelSize.value.height;
-    let newX = position.value.x;
-    let newY = position.value.y;
-
-    switch (resizeDirection.value) {
-        case "right":
-            newWidth = Math.max(200, panelSize.value.width + dx);
-            break;
-        case "left":
-            newWidth = Math.max(200, panelSize.value.width - dx);
-            newX = position.value.x + dx;
-            break;
-        case "bottom":
-            newHeight = Math.max(150, panelSize.value.height + dy);
-            break;
-        case "top":
-            newHeight = Math.max(150, panelSize.value.height - dy);
-            newY = position.value.y + dy;
-            break;
-        case "top-left":
-            newWidth = Math.max(200, panelSize.value.width - dx);
-            newHeight = Math.max(150, panelSize.value.height - dy);
-            newX = position.value.x + dx;
-            newY = position.value.y + dy;
-            break;
-        case "top-right":
-            newWidth = Math.max(200, panelSize.value.width + dx);
-            newHeight = Math.max(150, panelSize.value.height - dy);
-            newY = position.value.y + dy;
-            break;
-        case "bottom-left":
-            newWidth = Math.max(200, panelSize.value.width - dx);
-            newHeight = Math.max(150, panelSize.value.height + dy);
-            newX = position.value.x + dx;
-            break;
-        case "bottom-right":
-            newWidth = Math.max(200, panelSize.value.width + dx);
-            newHeight = Math.max(150, panelSize.value.height + dy);
-            break;
-    }
-
-    panelSize.value = { width: newWidth, height: newHeight };
-    position.value = { x: newX, y: newY };
-
-    dragOffset.value = { x: e.clientX, y: e.clientY };
-};
-
-const stopResize = () => {
-    isResizing.value = false;
-    document.removeEventListener("mousemove", onResize);
-    document.removeEventListener("mouseup", stopResize);
-};
-
 onBeforeUnmount(() => {
     document.removeEventListener("mousemove", onDrag);
     document.removeEventListener("mouseup", stopDrag);
-    document.removeEventListener("mousemove", onResize);
-    document.removeEventListener("mouseup", stopResize);
 });
 </script>
 
 <style lang="scss" scoped>
 .custom-panel {
-    position: absolute;
-    background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%);
-    max-height: 100vh;
+    position: absolute; /* 背景图居中 */
+    background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%) no-repeat
+        center;
+
+    background-size: cover; //背景图会缩放以覆盖整个容器，可能会裁剪部分图像
+    background-position: center;
+    background-repeat: no-repeat; /* 或 repeat */
+    // 初始宽高
+    width: 390px;
+    height: 580px;
+    // 最小宽高
     min-width: 235px;
     min-height: 114px;
-    width: auto;
-    height: auto;
-    padding: 20px;
+    // 最大宽高
+    max-width: 1200px;
+    max-height: 800px;
+    padding: 0 20px;
     box-sizing: border-box;
+
     z-index: 999;
     user-select: none;
     border-radius: 24px;
@@ -420,6 +378,12 @@ onBeforeUnmount(() => {
     // 隐藏滚动条
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE & Edge */
+
+    // 子组件排列
+    // display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
         transform: translateY(-5px);
@@ -455,63 +419,21 @@ onBeforeUnmount(() => {
     left: -5px;
     cursor: move;
 }
-.top-right {
-    top: -5px;
-    right: -5px;
-    cursor: nesw-resize;
-}
-.bottom-left {
-    bottom: -5px;
-    left: -5px;
-    cursor: nesw-resize;
-}
-.bottom-right {
-    bottom: -5px;
-    right: -5px;
-    cursor: nwse-resize;
-}
-
-.left {
-    top: 50%;
-    left: -5px;
-    height: 100%;
-    transform: translateY(-50%);
-    cursor: ew-resize;
-}
-.right {
-    top: 50%;
-    right: -5px;
-    height: 100%;
-    transform: translateY(-50%);
-    cursor: ew-resize;
-}
-.top {
-    left: 50%;
-    top: -5px;
-    width: 100%;
-    transform: translateX(-50%);
-    cursor: ns-resize;
-}
-.bottom {
-    left: 50%;
-    bottom: -5px;
-    width: 100%;
-    transform: translateX(-50%);
-    cursor: ns-resize;
-}
 
 .title {
-    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    height: 178px;
+    text-align: center; /* 如果需要让文本也居中 */
+    background: no-repeat center;
+
     font-size: 20px;
     font-weight: 600;
     color: #2c3e50;
     margin-bottom: 20px;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.2);
     border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-repeat: no-repeat;
     gap: 8px;
 
     .title-icon {
@@ -520,11 +442,58 @@ onBeforeUnmount(() => {
     }
 }
 
+.fade-slide-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.fade-slide-enter-to {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fade-slide-enter-active {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* 离开动画 */
+.fade-slide-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.fade-slide-leave-active {
+    transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+}
+
+.func-title {
+    background: no-repeat center;
+    width: 100%;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 12px;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.func-title span {
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #8989e8, #cf7dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .general-button {
-    background: rgba(255, 255, 255, 0.25);
-    padding: 12px 20px;
+    width: 165px;
+    height: 88px;
+    background: no-repeat center;
     margin-bottom: 12px;
-    margin-right: 10px;
     text-align: center;
     border-radius: 15px;
     border: none;
@@ -534,14 +503,9 @@ onBeforeUnmount(() => {
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 8px;
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.4);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
 
     &:active {
         transform: translateY(0);
@@ -550,6 +514,27 @@ onBeforeUnmount(() => {
     .button-icon {
         font-style: normal;
     }
+
+    .btn-text {
+        margin-left: 55px;
+        font-size: 16px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #8989e8, #cf7dff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        // color: #1e3a5f;
+        // text-shadow: 1px 1px 3px rgba(99, 83, 83, 0.7);
+        transition: color 0.3s ease-in-out;
+    }
+}
+
+.top-title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .bottom-button {
@@ -557,11 +542,14 @@ onBeforeUnmount(() => {
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 20px;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .responses-container {
     margin: 20px 0;
     max-height: 300px;
+    width: 100%;
     overflow-y: auto;
     padding: 15px;
     background: rgba(255, 255, 255, 0.15);

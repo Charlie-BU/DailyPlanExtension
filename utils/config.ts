@@ -59,3 +59,19 @@ const selectedModel: Model =
 export const modelName: string = selectedModel.name;
 export const baseURL: string = selectedModel.baseURL;
 export const apiKey: string = selectedModel.apiKey;
+
+// 平台配置
+type Platform = {
+    name: string;
+    URL: string;
+};
+export const validPlatforms: Platform[] = [
+    {
+        name: "woyaozuojihua",
+        URL: "https://todos.woyaozuojihua.com/pc/#/view",
+    },
+    {
+        name: "anydo",
+        URL: "https://app.any.do/calendar",
+    },
+];

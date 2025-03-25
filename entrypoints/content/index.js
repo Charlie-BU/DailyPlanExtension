@@ -1,42 +1,49 @@
 import { createApp, ref } from "vue";
-import Welcome from "@/components/Welcome.vue";
-import * as getData from "./get-plans";
 import { useDebounceFn } from "@vueuse/core/index.cjs";
 
+import Welcome from "@/components/Welcome.vue";
+import * as woyaozuojihua from "./get-plan-data/woyaozuojihua";
+import * as anydo from "./get-plan-data/anydo";
+import { validPlatforms } from "../../utils/config";
+
+// 判断当前URL是否在生效URL列表中
+const isValidURL = (currURL) => {
+    const matchedPlatform = validPlatforms.find((each) =>
+        currURL.startsWith(each.URL)
+    );
+    return matchedPlatform ? matchedPlatform.name : null;
+};
+
 export default defineContentScript({
-    // matches: ["https://todos.woyaozuojihua.com/pc/*"],
     matches: ["*://*/*"],
     /* main 函数会在以下时机触发：
         当匹配的网页完成加载后（页面 DOM 构建完成时）
         当用户导航到匹配的新页面时
         当页面从历史记录中恢复时（比如用户点击浏览器的后退按钮）*/
-    main(ctx) {
-        // 检查当前URL是否匹配目标页面
-        // 生产环境必须取消注释！
-        if (
-            !window.location.href.startsWith(
-                "https://todos.woyaozuojihua.com/pc/#/view"
-            )
-        )
-            return;
+    async main(ctx) {
+        const currPlatform = isValidURL(window.location.href);
+        if (!currPlatform) return;
 
         const allMonthPlans = ref([]);
-        // 防抖
-        const updateData = useDebounceFn(() => {
-            allMonthPlans.value = getData.getAllPlansThisMonth();
-        }, 500);
-        const observer = new MutationObserver(updateData);
-        observer.observe(document.body, { childList: true, subtree: true });
 
-        // 组件挂载
+        if (currPlatform === "woyaozuojihua") {
+            const updateData = useDebounceFn(() => {
+                allMonthPlans.value = woyaozuojihua.getAllPlansThisMonth();
+            }, 500);
+            const observer = new MutationObserver(updateData);
+            observer.observe(document.body, { childList: true, subtree: true });
+        } else if (currPlatform === "anydo") {
+            const tasks = await anydo.getAllTasks();
+            allMonthPlans.value = tasks;
+        }
         const ui = createIntegratedUi(ctx, {
             position: "inline",
             anchor: "body",
-            onMount: (container) => {
+            onMount: async (container) => {
                 const app = createApp(Welcome, {
                     allData: {
                         status: 200,
-                        allMonthPlans: allMonthPlans,
+                        allMonthPlans: allMonthPlans, // ref 数据
                     },
                 });
                 app.mount(container);

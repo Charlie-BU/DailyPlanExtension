@@ -1,82 +1,76 @@
 <template>
-    <div class="analysis-container">
-        <div
-            v-for="(value, key) in responseToRender.res"
-            :key="key"
-            class="analysis-card">
-            <h3>
-                {{ utils.getNameAndIcon(responseToRender.func, key).icon }}
-                {{ utils.getNameAndIcon(responseToRender.func, key).name }}
-            </h3>
-            <div class="content">
-                <!-- 对象数组：渲染表格 -->
-                <template
-                    v-if="
-                        Array.isArray(value) &&
-                        value.length > 0 &&
-                        typeof value[0] === 'object'
-                    ">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th
-                                    v-for="(col, index) in Object.keys(
-                                        value[0]
-                                    )"
-                                    :key="index"
-                                    style="text-align: center">
-                                    {{ col }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="(row, rowIndex) in value"
-                                :key="rowIndex">
-                                <td
-                                    v-for="(col, colIndex) in Object.keys(row)"
-                                    :key="colIndex"
-                                    style="text-align: center">
-                                    {{ row[col] }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </template>
+    <div
+        v-for="(value, key) in responseToRender.res"
+        :key="key"
+        class="analysis-card">
+        <h3>
+            {{ utils.getNameAndIcon(responseToRender.func, key).icon }}
+            {{ utils.getNameAndIcon(responseToRender.func, key).name }}
+        </h3>
+        <div class="content">
+            <!-- 对象数组：渲染表格 -->
+            <template
+                v-if="
+                    Array.isArray(value) &&
+                    value.length > 0 &&
+                    typeof value[0] === 'object'
+                ">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th
+                                v-for="(col, index) in Object.keys(value[0])"
+                                :key="index"
+                                style="text-align: center">
+                                {{ col }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(row, rowIndex) in value" :key="rowIndex">
+                            <td
+                                v-for="(col, colIndex) in Object.keys(row)"
+                                :key="colIndex"
+                                style="text-align: center">
+                                {{ row[col] }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </template>
 
-                <!-- 可枚举对象：渲染表格 -->
-                <template
-                    v-else-if="
-                        value &&
-                        typeof value === 'object' &&
-                        Object.keys(value).length
-                    ">
-                    <table class="data-table">
-                        <!-- <thead>
+            <!-- 可枚举对象：渲染表格 -->
+            <template
+                v-else-if="
+                    value &&
+                    typeof value === 'object' &&
+                    Object.keys(value).length
+                ">
+                <table class="data-table">
+                    <!-- <thead>
                             <tr>
                                 <th style="text-align: center">键</th>
                                 <th style="text-align: center">值</th>
                             </tr>
                         </thead> -->
-                        <tbody>
-                            <tr
-                                v-for="[key, val] in Object.entries(value)"
-                                :key="key">
-                                <td
-                                    class="object-key-col"
-                                    style="text-align: center">
-                                    {{ key }}
-                                </td>
-                                <td style="text-align: center">{{ val }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </template>
+                    <tbody>
+                        <tr
+                            v-for="[key, val] in Object.entries(value)"
+                            :key="key">
+                            <td
+                                class="object-key-col"
+                                style="text-align: center">
+                                {{ key }}
+                            </td>
+                            <td style="text-align: center">{{ val }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </template>
 
-                <template v-else>
-                    {{ formatValue(value) }}
-                </template>
-            </div>
+            <template v-else>
+                {{ value }}
+            </template>
         </div>
     </div>
 </template>
@@ -100,19 +94,19 @@ const props = defineProps({
 });
 
 // template直接渲染
-const formatValue = (value) => {
-    // 若返回的是对象数组
-    if (typeof value === "object" && value !== null) {
-        console.log(value);
-        // return parsedValue;
-    }
-    return value;
-};
+// const formatValue = (value) => {
+//     // 若返回的是对象数组
+//     if (typeof value === "object" && value !== null) {
+//         console.log(value);
+//         // return parsedValue;
+//     }
+//     return value;
+// };
 </script>
 
 <style lang="scss" scoped>
 .analysis-card {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: transparent;
     border-radius: 16px;
     padding: 20px;
     margin-top: 20px;
@@ -130,13 +124,13 @@ const formatValue = (value) => {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 1.2rem;
+        font-size: 17px;
         font-weight: bold;
         margin-bottom: 10px;
     }
 
     .content {
-        font-size: 1rem;
+        font-size: 15px;
         color: #34495e;
         line-height: 1.5;
         overflow-x: auto; /* 让表格超出时可滚动 */

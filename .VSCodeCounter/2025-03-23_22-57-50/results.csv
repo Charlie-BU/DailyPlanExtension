@@ -1,0 +1,30 @@
+"filename", "language", "XML", "JSON with Comments", "JavaScript", "CSS", "HTML", "vue", "Python", "JSON", "Markdown", "TypeScript", "comment", "blank", "total"
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/HTML-crawling/main.py", "Python", 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 1, 5, 18
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/assets/vue.svg", "XML", 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/AIResponse.vue", "vue", 0, 0, 0, 0, 0, 147, 0, 0, 0, 0, 3, 18, 168
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/DetailSections.vue", "vue", 0, 0, 0, 0, 0, 147, 0, 0, 0, 0, 8, 14, 169
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/PieChart.vue", "vue", 0, 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 9, 86
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/Test.vue", "vue", 0, 0, 0, 0, 0, 97, 0, 0, 0, 0, 0, 17, 114
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/Toast.vue", "vue", 0, 0, 0, 0, 0, 57, 0, 0, 0, 0, 0, 12, 69
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/Welcome.vue", "vue", 0, 0, 0, 0, 0, 665, 0, 0, 0, 0, 1, 72, 738
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/WelcomeOriginal.vue", "vue", 0, 0, 0, 0, 0, 561, 0, 0, 0, 0, 5, 62, 628
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 87, 0, 0, 35, 122
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/website-activity-analysis.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 10, 46
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/提示词优化记录.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 217, 0, 0, 10, 227
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/提示词流程.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 81, 0, 0, 1, 82
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/background/index.js", "JavaScript", 0, 0, 37, 0, 0, 0, 0, 0, 0, 0, 3, 3, 43
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/content/get-plans.js", "JavaScript", 0, 0, 45, 0, 0, 0, 0, 0, 0, 0, 5, 3, 53
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/content/index.js", "JavaScript", 0, 0, 41, 0, 0, 0, 0, 0, 0, 0, 8, 4, 53
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/App.vue", "vue", 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 6
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/index.html", "HTML", 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 1, 14
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/main.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 6, 4, 17
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/style.css", "CSS", 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0, 10, 81
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/package-lock.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 9348, 0, 0, 0, 1, 9349
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/package.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 0, 1, 35
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/public/wxt.svg", "XML", 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 16
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/tsconfig.json", "JSON with Comments", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/utils/config.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 7, 5, 62
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/utils/prompts.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 136, 3, 8, 147
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/utils/utils.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 52, 0, 3, 55
+"/Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/wxt.config.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 2, 2, 21
+"Total", "-", 16, 3, 130, 71, 13, 1754, 12, 9382, 421, 255, 52, 316, 12425
