@@ -52,3 +52,25 @@ export const getNameAndIcon = (func: string, key: string): NameAndIcon => {
 
     return mapping[func]?.[key] || { name: "未知字段", icon: "❓" };
 };
+
+export const formatTimestamp = (
+    timestamp: string | number,
+    scope: "toDate" | "toTime" = "toDate"
+): object | null => {
+    const date = new Date(Number(timestamp));
+    if (isNaN(date.getTime())) return null;
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    if (scope === "toDate") {
+        return { year, month, day };
+    }
+
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+
+    return { year, month, day, hour, minute, second };
+};

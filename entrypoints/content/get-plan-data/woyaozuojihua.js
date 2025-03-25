@@ -1,14 +1,3 @@
-export const Test = () => {
-    const elements = document.querySelectorAll(".list.red");
-    if (!elements.length) {
-        return [];
-    }
-    const result = Array.from(elements).map((element) => ({
-        text: element.innerText,
-    }));
-    return result;
-};
-
 export const getAllPlansThisMonth = () => {
     const currentMonth = document.querySelector(".current-date")?.innerText;
 
