@@ -4,6 +4,7 @@ import { useDebounceFn } from "@vueuse/core/index.cjs";
 import Welcome from "@/components/Welcome.vue";
 import * as woyaozuojihua from "./get-plan-data/woyaozuojihua";
 import * as anydo from "./get-plan-data/anydo";
+import * as monday from "./get-plan-data/monday";
 import { validPlatforms } from "../../utils/config";
 
 // 判断当前URL是否在生效URL列表中
@@ -23,6 +24,8 @@ export default defineContentScript({
     async main(ctx) {
         const currPlatform = isValidURL(window.location.href);
         if (!currPlatform) return;
+
+        monday.getAllTasks();
 
         const allMonthPlans = ref([]);
 

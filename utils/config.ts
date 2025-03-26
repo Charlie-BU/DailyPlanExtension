@@ -74,4 +74,8 @@ export const validPlatforms: Platform[] = [
         name: "anydo",
         URL: "https://app.any.do/calendar",
     },
+    {
+        name: "monday",
+        URL: "",
+    },
 ];

@@ -119,7 +119,7 @@ const chartData = ref([
 ```js
 allMonthPlans: {
     date: "2025年3月25日",
-    lunar: "廿六",
+    lunar: "廿六",      // 可选
     plansFinished: [
         "我要做计划浏览器插件软著材料准备",
         "静安hang out",
