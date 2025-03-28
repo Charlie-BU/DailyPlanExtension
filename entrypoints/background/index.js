@@ -10,7 +10,7 @@ export default defineBackground(() => {
 });
 
 // 在background中发起的请求不会有CORS跨域限制
-export const ask = async (content, historyDialogs = []) => {
+export const ask = async (content, historyDialogs = [], resType = "json") => {
     try {
         const response = await ofetch(`${baseURL}/chat/completions`, {
             method: "POST",
@@ -31,7 +31,9 @@ export const ask = async (content, historyDialogs = []) => {
                 temperature: 0.3,
                 stream: false, // 由于消息传递的限制，暂时不支持流式响应
                 // 返回JSON
-                response_format: { type: "json_object" },
+                response_format: {
+                    type: resType === "json" ? "json_object" : "text",
+                },
             }),
         });
         return response;

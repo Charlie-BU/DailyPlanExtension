@@ -1,33 +1,37 @@
 const today = new Date();
 const todayString = `${today.getFullYear()}年${
-  today.getMonth() + 1
+    today.getMonth() + 1
 }月${today.getDate()}日`;
 
-type MonthPlan = {
-  date: string;
-  lunar: string;
-  plansFinished: string[];
-  plansUnfinished: string[];
+type PlanObj = {
+    date: string;
+    day: number;
+    lunar: string;
+    plansFinished: string[];
+    plansUnfinished: string[];
 };
 
 export const constructInitPrompt = (
-  extraWords: string,
-  allMonthPlans: MonthPlan[],
-  isFirstCall: boolean = true
+    extraWords: string,
+    allMonthPlans: PlanObj[],
+    extraPlanData: string = ``,
+    isFirstCall: boolean = true
 ) => {
-  let prompt = isFirstCall ? `我的本月计划如下` : ``;
-  prompt += `${extraWords}\n返回json格式。#强调；2.不允许编造虚假计划。\n`;
-  if (isFirstCall) {
-    // 无需for循环，一定程度提高性能
-    prompt += allMonthPlans
-      .map(
-        (each) =>
-          `日期：${each.date}\n已完成计划：${each.plansFinished}\n未完成计划：${each.plansUnfinished}`
-      )
-      .join(`\n`);
-  }
+    let prompt: string = extraPlanData ? extraPlanData + `\n\n` : ``;
+    prompt += `${extraWords}\n返回json格式。#强调；2.不允许编造虚假计划。\n`;
+    // 第一次调用需要把全部当月计划投给大模型
+    if (isFirstCall) {
+        prompt += `\n我的当月全部计划如下：\n`;
+        // 无需for循环，一定程度提高性能
+        prompt += allMonthPlans
+            .map(
+                (each) =>
+                    `日期：${each.date}\n已完成计划：${each.plansFinished}\n未完成计划：${each.plansUnfinished}`
+            )
+            .join(`\n`);
+    }
 
-  return prompt;
+    return prompt;
 };
 
 // 提示词封装为contents对象

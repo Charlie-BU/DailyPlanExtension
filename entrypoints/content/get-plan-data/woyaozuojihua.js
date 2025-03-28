@@ -28,6 +28,7 @@ export const getAllPlansThisMonth = () => {
         // 构造planObj
         const planObj = {
             date: `${currentMonth}${dateDay}日` || "未知",
+            day: Number(dateDay),
             lunar: lunar || "未知",
             plansFinished: plansFinished || [],
             plansUnfinished: plansUnfinished || [],

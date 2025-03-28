@@ -4,12 +4,13 @@ import { useDebounceFn } from "@vueuse/core/index.cjs";
 import Welcome from "@/components/Welcome.vue";
 import * as woyaozuojihua from "./get-plan-data/woyaozuojihua";
 import * as anydo from "./get-plan-data/anydo";
+import * as monday from "./get-plan-data/monday";
 import { validPlatforms } from "../../utils/config";
 
 // 判断当前URL是否在生效URL列表中
 const isValidURL = (currURL) => {
     const matchedPlatform = validPlatforms.find((each) =>
-        currURL.startsWith(each.URL)
+        currURL.includes(each.URL)
     );
     return matchedPlatform ? matchedPlatform.name : null;
 };
@@ -24,6 +25,8 @@ export default defineContentScript({
         const currPlatform = isValidURL(window.location.href);
         if (!currPlatform) return;
 
+        monday.getAllTasks();
+
         const allMonthPlans = ref([]);
 
         if (currPlatform === "woyaozuojihua") {
@@ -35,6 +38,9 @@ export default defineContentScript({
         } else if (currPlatform === "anydo") {
             const tasks = await anydo.getAllTasks();
             allMonthPlans.value = tasks;
+        } else if (currPlatform === "monday") {
+            const tasks = await monday.getAllTasks();
+            // allMonthPlans.value = tasks;
         }
         const ui = createIntegratedUi(ctx, {
             position: "inline",
