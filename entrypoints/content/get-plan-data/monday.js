@@ -10,22 +10,35 @@ const boardId = match ? match[1] : null;
 // console.log(domain, boardId);
 
 const formatTaskArray = (rawTasks) => {
-    const allTasks = Object.values(rawTasks).flat().map((each) => {
-        const date = each.column_values.date?.date ? new Date(each.column_values.date.date) : null;
-        return {
-            title: each.column_values.name || each.name,
-            status: each.column_values.project_status?.index === 1,
-            date: date ? `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日` : "未知",
-            day: date ? date.getDate() : null,
-        };
-    });
+    const allTasks = Object.values(rawTasks)
+        .flat()
+        .map((each) => {
+            const date = each.column_values.date?.date
+                ? new Date(each.column_values.date.date)
+                : null;
+            return {
+                title: each.column_values.name || each.name,
+                status: each.column_values.project_status?.index === 1,
+                date: date
+                    ? `${date.getFullYear()}年${
+                          date.getMonth() + 1
+                      }月${date.getDate()}日`
+                    : "未知",
+                day: date?.getDate(),
+            };
+        });
 
     const groupedTasks = allTasks.reduce((acc, task) => {
-        const { date, title, status } = task;
+        const { title, status, date, day } = task;
         let entry = acc.find((item) => item.date === date);
 
         if (!entry) {
-            entry = { date, day: task.day, plansFinished: [], plansUnfinished: [] };
+            entry = {
+                date,
+                day: day,
+                plansFinished: [],
+                plansUnfinished: [],
+            };
             acc.push(entry);
         }
         if (status) {
@@ -64,4 +77,3 @@ export const getAllTasks = async () => {
     // console.log(tasks);
     return tasks;
 };
-
