@@ -3,8 +3,9 @@ const todayString = `${today.getFullYear()}年${
     today.getMonth() + 1
 }月${today.getDate()}日`;
 
-type MonthPlan = {
+type PlanObj = {
     date: string;
+    day: number;
     lunar: string;
     plansFinished: string[];
     plansUnfinished: string[];
@@ -12,12 +13,16 @@ type MonthPlan = {
 
 export const constructInitPrompt = (
     extraWords: string,
-    allMonthPlans: MonthPlan[],
+    allMonthPlans: PlanObj[],
+    extraPlanData: string = ``,
     isFirstCall: boolean = true
 ) => {
-    let prompt = isFirstCall ? `我的本月计划如下` : ``;
+    let prompt: string = extraPlanData ? extraPlanData + `\n\n` : ``;
+
     prompt += `${extraWords}\n请以各条目为键名，生成相应内容纯文本为值，返回json格式方便我解析。#强调：1.如果有条目中因计划数据不足无法生成相应回答，最后输出中不允许出现该条目：2.在分析和回答中，一切以所给计划数据为准，不允许编造任何虚假计划； 3. 避免出现“我理解了你的要求”“好的”“好的，我明白了”等字眼。\n`;
+    // 第一次调用需要把全部当月计划投给大模型
     if (isFirstCall) {
+        prompt += `\n我的当月全部计划如下：\n`;
         // 无需for循环，一定程度提高性能
         prompt += allMonthPlans
             .map(

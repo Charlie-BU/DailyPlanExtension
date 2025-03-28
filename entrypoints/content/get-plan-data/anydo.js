@@ -23,15 +23,16 @@ const formatTaskArray = (rawTasks) => {
             title: each.title,
             status: each.status === "CHECKED",
             date: date ? `${date.year}年${date.month}月${date.day}日` : "未知",
+            day: Number(date.day),
         };
     });
 
     const groupedTasks = allTasks.reduce((acc, task) => {
-        const { date, title, status } = task;
+        const { title, status, date, day } = task;
         let entry = acc.find((item) => item.date === date);
 
         if (!entry) {
-            entry = { date, plansFinished: [], plansUnfinished: [] };
+            entry = { date, day, plansFinished: [], plansUnfinished: [] };
             acc.push(entry);
         }
         if (status) {

@@ -76,6 +76,6 @@ export const validPlatforms: Platform[] = [
     },
     {
         name: "monday",
-        URL: "",
+        URL: "monday.com/boards/",
     },
 ];

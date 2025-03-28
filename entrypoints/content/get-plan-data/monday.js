@@ -7,15 +7,13 @@ const domain = urlObj.origin;
 const match = currURL.match(/\/boards\/(\d+)\//);
 const boardId = match ? match[1] : null;
 
-console.log(domain, boardId);
-
 export const getAllTasks = async () => {
     const res = await ofetch(
-        `https://${domain}.monday.com/columnvalues/board-ms/boards/${boardId}/items`,
+        `${domain}/columnvalues/board-ms/boards/${boardId}/items`,
         {
             method: "GET",
         }
     );
-    console.log(res);
+    // console.log(res);
     // return res?.task_id || "";
 };
