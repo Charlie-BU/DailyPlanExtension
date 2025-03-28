@@ -127,7 +127,8 @@ const props = defineProps({
         required: true,
     },
 });
-const allMonthPlans = ref(null);
+
+const allMonthPlans = props.allData.allMonthPlans; // 不能初始化为ref(null)，否则async/await风格不能出发watch，无法更新值
 
 // 实时更新响应式数据
 watch(
@@ -152,7 +153,7 @@ const responseToRender = ref(null); // 封装parsedResponse，添加相应功能
 const historyDialogs = ref([]);
 
 // 向饼图子组件传参
-// const chartData = ref(null);
+const chartData = ref(null);
 // const testPieChart = () => {
 //     chartData.value = [
 //         { value: 1048, name: "搜索引擎" },
