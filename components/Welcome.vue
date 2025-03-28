@@ -35,7 +35,6 @@
             </div>
         </transition>
 
-        <!-- 饼图 -->
         <div>
             <PieChart v-if="chartData" :chartData="chartData" />
         </div>
@@ -101,7 +100,7 @@
 </template>
 
 <script setup>
-import { watch, ref, onBeforeUnmount } from "vue";
+import { watch, ref, onMounted, onBeforeUnmount } from "vue";
 import { useDebounceFn } from "@vueuse/core";
 
 import { ask } from "../entrypoints/background/index";
@@ -128,7 +127,7 @@ const props = defineProps({
     },
 });
 
-const allMonthPlans = props.allData.allMonthPlans; // 不能初始化为ref(null)，否则async/await风格不能出发watch，无法更新值
+const allMonthPlans = props.allData.allMonthPlans; // 不能初始化为ref(null)，否则async/await风格不能触发watch，无法更新值
 
 // 实时更新响应式数据
 watch(
@@ -139,6 +138,23 @@ watch(
     },
     { deep: true }
 );
+
+// 这个方案被废弃了：初始化等待时间过久，极大降低用户体验
+// onMounted(() => {
+//     setTimeout(async () => {
+//         // 先把当月所有计划交给大模型
+//         const prompt = prompts.constructInitPrompt(
+//             "",
+//             allMonthPlans.value,
+//             isFirstCall
+//         );
+//         const response = await ask(prompt, [], "text");
+//         isFirstCall = false;
+//         console.log(response);
+//     }, 2000);
+// });
+
+// console.log(allMonthPlans.value);
 
 // 双向绑定Toast
 const toastRef = ref(null);
@@ -191,11 +207,11 @@ const callAPI = async (
     try {
         const response = await ask(thisPrompt, historyDialogs.value);
         rawResponse.value = response.choices[0].message.content;
+        isFirstCall = false;
         // 添加上下文
         const userMessage = { role: "user", content: thisPrompt };
         historyDialogs.value.push(userMessage);
         historyDialogs.value.push(response.choices[0].message);
-        isFirstCall = false;
         try {
             // 可json解析
             parsedResponse.value = JSON.parse(rawResponse.value);
@@ -203,7 +219,6 @@ const callAPI = async (
                 func: func,
                 res: parsedResponse.value,
             };
-            console.log(responseToRender.value);
             isJsonResponse.value = true;
         } catch (e) {
             // 非json
@@ -230,6 +245,7 @@ const summerizeMonthPlan = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.summerizeMonthPlan,
         allMonthPlans.value,
+        "",
         isFirstCall
     );
     await callAPI("summerizeMonthPlan", prompt);
@@ -244,6 +260,7 @@ const depictCharacter = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.depictCharacter,
         allMonthPlans.value,
+        "",
         isFirstCall
     );
     await callAPI("depictCharacter", prompt);
@@ -255,12 +272,20 @@ const optimizePlanToday = useDebounceFn(async () => {
         return;
     }
     currFunc.value = "当日计划优化";
+
+    const date = new Date();
+    const planToday = allMonthPlans.value.filter(
+        (each) => each.day === Number(date.getDate())
+    )[0];
+    const extraPlanData = `今日（${planToday.date}）计划如下：${planToday.plansUnfinished},${planToday.plansFinished}`;
     const prompt = prompts.constructInitPrompt(
         prompts.contents.optimizePlanToday,
         allMonthPlans.value,
+        extraPlanData,
         isFirstCall
     );
-    await callAPI("optimizePlanToday", prompt);
+    console.log(prompt);
+    // await callAPI("optimizePlanToday", prompt);
 }, 1000);
 
 const proposePlanTomorrow = useDebounceFn(async () => {
@@ -269,9 +294,16 @@ const proposePlanTomorrow = useDebounceFn(async () => {
         return;
     }
     currFunc.value = "明日计划建议";
+
+    const date = new Date();
+    const planToday = allMonthPlans.value.filter(
+        (each) => each.day === Number(date.getDate())
+    )[0];
+    const extraPlanData = `这是我今日的计划：\n未完成：${planToday.plansUnfinished}\n已完成：${planToday.plansFinished}`;
     const prompt = prompts.constructInitPrompt(
         prompts.contents.proposePlanTomorrow,
         allMonthPlans.value,
+        extraPlanData,
         isFirstCall
     );
     await callAPI("proposePlanTomorrow", prompt);
@@ -286,6 +318,7 @@ const predictMyBehavior = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.predictMyBehavior,
         allMonthPlans.value,
+        "",
         isFirstCall
     );
     await callAPI("predictMyBehavior", prompt);
@@ -300,6 +333,7 @@ const seekOldPlans = useDebounceFn(async () => {
     const prompt = prompts.constructInitPrompt(
         prompts.contents.seekOldPlans,
         allMonthPlans.value,
+        "",
         isFirstCall
     );
     await callAPI("seekOldPlans", prompt);

@@ -7,7 +7,7 @@ const domain = urlObj.origin;
 const match = currURL.match(/\/boards\/(\d+)\//);
 const boardId = match ? match[1] : null;
 
-console.log(domain, boardId);
+// console.log(domain, boardId);
 
 const formatTaskArray = (rawTasks) => {
     const allTasks = Object.values(rawTasks).flat().map((each) => {
@@ -60,8 +60,8 @@ export const getAllTasks = async () => {
     );
     const rawTasks = res?.pagedItems;
     const tasks = formatTaskArray(rawTasks);
-    console.log(res);
-    console.log(tasks);
+    // console.log(res);
+    // console.log(tasks);
     return tasks;
 };
 

@@ -10,7 +10,7 @@ import { validPlatforms } from "../../utils/config";
 // 判断当前URL是否在生效URL列表中
 const isValidURL = (currURL) => {
     const matchedPlatform = validPlatforms.find((each) =>
-        currURL.startsWith(each.URL)
+        currURL.includes(each.URL)
     );
     return matchedPlatform ? matchedPlatform.name : null;
 };
@@ -38,6 +38,9 @@ export default defineContentScript({
         } else if (currPlatform === "anydo") {
             const tasks = await anydo.getAllTasks();
             allMonthPlans.value = tasks;
+        } else if (currPlatform === "monday") {
+            const tasks = await monday.getAllTasks();
+            // allMonthPlans.value = tasks;
         }
         const ui = createIntegratedUi(ctx, {
             position: "inline",
