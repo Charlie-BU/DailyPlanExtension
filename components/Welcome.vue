@@ -284,7 +284,6 @@ const optimizePlanToday = useDebounceFn(async () => {
         extraPlanData,
         isFirstCall
     );
-    // console.log(prompt);
     await callAPI("optimizePlanToday", prompt);
 }, 1000);
 

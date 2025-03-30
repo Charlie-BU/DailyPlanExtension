@@ -31,8 +31,19 @@
                             <td
                                 v-for="(col, colIndex) in Object.keys(row)"
                                 :key="colIndex"
-                                style="text-align: center">
+                                style="text-align: center; position: relative"
+                                @mouseenter="
+                                    hoverCell = `${rowIndex}-${colIndex}`
+                                "
+                                @mouseleave="hoverCell = null">
                                 {{ row[col] }}
+                                <span
+                                    v-if="
+                                        hoverCell === `${rowIndex}-${colIndex}`
+                                    "
+                                    @click="copyToClipboard(row[col])">
+                                    {{ copyState ? "✓" : "📋" }}
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -47,12 +58,6 @@
                     Object.keys(value).length
                 ">
                 <table class="data-table">
-                    <!-- <thead>
-                            <tr>
-                                <th style="text-align: center">键</th>
-                                <th style="text-align: center">值</th>
-                            </tr>
-                        </thead> -->
                     <tbody>
                         <tr
                             v-for="[key, val] in Object.entries(value)"
@@ -62,14 +67,33 @@
                                 style="text-align: center">
                                 {{ key }}
                             </td>
-                            <td style="text-align: center">{{ val }}</td>
+                            <td
+                                style="text-align: center"
+                                @mouseenter="hoverCell = val"
+                                @mouseleave="hoverCell = null">
+                                {{ val }}
+                                <span
+                                    v-if="hoverCell === val"
+                                    @click="copyToClipboard(val)">
+                                    {{ copyState ? "✓" : "📋" }}
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </template>
 
             <template v-else>
-                {{ value }}
+                <div
+                    @mouseenter="hoverCell = value"
+                    @mouseleave="hoverCell = null">
+                    {{ value }}
+                    <span
+                        v-if="hoverCell === value"
+                        @click="copyToClipboard(value)">
+                        {{ copyState ? "✓" : "📋" }}
+                    </span>
+                </div>
             </template>
         </div>
     </div>
@@ -102,6 +126,25 @@ const props = defineProps({
 //     }
 //     return value;
 // };
+
+const copyState = ref(false);
+
+// 移入复制事件
+const hoverCell = ref(null);
+
+const copyToClipboard = (text) => {
+    navigator.clipboard
+        .writeText(text)
+        .then(() => {
+            copyState.value = true;
+            setTimeout(() => {
+                copyState.value = false;
+            }, 1000);
+        })
+        .catch((err) => {
+            console.error("复制失败: ", err);
+        });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -164,5 +207,21 @@ const props = defineProps({
     text-align: center;
     font-weight: bold;
     white-space: nowrap;
+}
+
+.copy-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.copy-icon:hover {
+    opacity: 1;
 }
 </style>
