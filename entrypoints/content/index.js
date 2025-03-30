@@ -25,8 +25,6 @@ export default defineContentScript({
         const currPlatform = isValidURL(window.location.href);
         if (!currPlatform) return;
 
-        monday.getAllTasks();
-
         const allMonthPlans = ref([]);
 
         if (currPlatform === "woyaozuojihua") {
