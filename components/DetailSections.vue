@@ -8,9 +8,28 @@
             {{ utils.getNameAndIcon(responseToRender.func, key).name }}
         </h3>
         <div class="content">
-            <!-- 对象数组：渲染表格 -->
+            <!-- { 键: xx% } 饼图渲染 -->
             <template
                 v-if="
+                    Array.isArray(value) &&
+                    value.length > 0 &&
+                    typeof value[0] === 'object' &&
+                    (utils.parsePercentage(Object.values(value[0])[0]) ||
+                        utils.parsePercentage(Object.values(value[0])[1]))
+                ">
+                <div class="pie-chart">
+                    <PieChart
+                        :chartData="
+                            value.map((each) => {
+                                const [name, value] = Object.values(each);
+                                return { name, value };
+                            })
+                        " />
+                </div>
+            </template>
+            <!-- 对象数组：渲染表格 -->
+            <template
+                v-else-if="
                     Array.isArray(value) &&
                     value.length > 0 &&
                     typeof value[0] === 'object'
@@ -100,6 +119,7 @@
 </template>
 
 <script setup>
+import PieChart from "./PieChart.vue";
 import * as utils from "../utils/utils";
 
 // 传入对象格式：{
@@ -116,16 +136,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-// template直接渲染
-// const formatValue = (value) => {
-//     // 若返回的是对象数组
-//     if (typeof value === "object" && value !== null) {
-//         console.log(value);
-//         // return parsedValue;
-//     }
-//     return value;
-// };
 
 const copyState = ref(false);
 
@@ -179,6 +189,12 @@ const copyToClipboard = (text) => {
         overflow-x: auto; /* 让表格超出时可滚动 */
         max-width: 100%;
     }
+}
+
+.pie-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* 表格样式 */

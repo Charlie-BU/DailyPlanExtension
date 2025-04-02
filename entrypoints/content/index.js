@@ -5,12 +5,12 @@ import Welcome from "@/components/Welcome.vue";
 import * as woyaozuojihua from "./get-plan-data/woyaozuojihua";
 import * as anydo from "./get-plan-data/anydo";
 import * as monday from "./get-plan-data/monday";
-import { validPlatforms } from "../../utils/config";
+import { allPlatforms } from "../../utils/config";
 
 // 判断当前URL是否在生效URL列表中
 const isValidURL = (currURL) => {
-    const matchedPlatform = validPlatforms.find((each) =>
-        currURL.includes(each.URL)
+    const matchedPlatform = allPlatforms.find((each) =>
+        currURL.includes(each?.URLForMatch || each.URL)
     );
     return matchedPlatform ? matchedPlatform.name : null;
 };
@@ -27,18 +27,18 @@ export default defineContentScript({
 
         const allMonthPlans = ref([]);
 
-        if (currPlatform === "woyaozuojihua") {
+        if (currPlatform === "我要做计划") {
             const updateData = useDebounceFn(() => {
                 allMonthPlans.value = woyaozuojihua.getAllPlansThisMonth();
             }, 500);
             const observer = new MutationObserver(updateData);
             observer.observe(document.body, { childList: true, subtree: true });
-        } else if (currPlatform === "anydo") {
+        } else if (currPlatform === "Any.do") {
             const tasks = await anydo.getAllTasks();
             allMonthPlans.value = tasks;
-        } else if (currPlatform === "monday") {
+        } else if (currPlatform === "Monday") {
             const tasks = await monday.getAllTasks();
-            // allMonthPlans.value = tasks;
+            allMonthPlans.value = tasks;
         }
         const ui = createIntegratedUi(ctx, {
             position: "inline",

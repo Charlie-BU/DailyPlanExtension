@@ -1,10 +1,11 @@
 <template>
     <div>
-        <div id="test-chart" style="width: 600px; height: 400px"></div>
+        <div id="test-chart" style="width: 500px; height: 333px"></div>
     </div>
 </template>
 
 <script setup>
+import * as utils from "../utils/utils";
 import * as echarts from "echarts";
 
 const props = defineProps({
@@ -15,18 +16,17 @@ const props = defineProps({
 });
 
 const initECharts = () => {
-    //    const data = [
-    //        { value: 1048, name: 'Search Engine' },
-    //        { value: 735, name: 'Direct' },
-    //        { value: 580, name: 'Email' },
-    //        { value: 484, name: 'Union Ads' },
-    //        { value: 300, name: 'Video Ads' }
-    //    ]
     initChart(props.chartData);
 };
 
 const initChart = (data) => {
-    //const chartData = await fetchChartData();
+    // 百分比单独处理
+    data.map((each) => {
+        if (utils.parsePercentage(each.value)) {
+            each.value = utils.parsePercentage(each.value) * 100;
+        }
+    });
+    console.log(data);
     var chartDom = document.getElementById("test-chart");
     if (!chartDom) {
         return;
@@ -44,7 +44,6 @@ const initChart = (data) => {
         },
         series: [
             {
-                name: "Access From",
                 type: "pie",
                 radius: ["40%", "70%"],
                 avoidLabelOverlap: false,
@@ -63,13 +62,6 @@ const initChart = (data) => {
                     show: false,
                 },
                 data: data,
-                //data: [
-                //    { value: 1048, name: 'Search Engine' },
-                //    { value: 735, name: 'Direct' },
-                //    { value: 580, name: 'Email' },
-                //    { value: 484, name: 'Union Ads' },
-                //    { value: 300, name: 'Video Ads' }
-                //]
             },
         ],
     };

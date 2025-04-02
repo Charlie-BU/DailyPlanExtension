@@ -19,7 +19,6 @@
                 }"></div>
         </div>
         <Toast ref="toastRef" />
-
         <transition name="fade-slide">
             <div v-if="currFunc" class="func-title">
                 <span>{{ currFunc }}</span>
@@ -34,10 +33,6 @@
                 <DetailSections v-else :responseToRender="responseToRender" />
             </div>
         </transition>
-
-        <div>
-            <PieChart v-if="chartData" :chartData="chartData" />
-        </div>
 
         <div class="bottom-button">
             <button
@@ -108,7 +103,6 @@ import * as prompts from "../utils/prompts";
 import DetailSections from "./DetailSections.vue";
 import AIResponse from "./AIResponse.vue";
 import Toast from "./Toast.vue";
-import PieChart from "./PieChart.vue";
 
 // assets导入
 import bgImg from "../assets/images/background.png";
@@ -128,7 +122,6 @@ const props = defineProps({
 });
 
 const allMonthPlans = props.allData.allMonthPlans; // 不能初始化为ref(null)，否则async/await风格不能触发watch，无法更新值
-
 // 实时更新响应式数据
 watch(
     () => props.allData,
@@ -154,8 +147,6 @@ watch(
 //     }, 2000);
 // });
 
-// console.log(allMonthPlans.value);
-
 // 双向绑定Toast
 const toastRef = ref(null);
 
@@ -167,18 +158,6 @@ const parsedResponse = ref(null);
 const responseToRender = ref(null); // 封装parsedResponse，添加相应功能名
 // 提供上下文支持
 const historyDialogs = ref([]);
-
-// 向饼图子组件传参
-const chartData = ref(null);
-// const testPieChart = () => {
-//     chartData.value = [
-//         { value: 1048, name: "搜索引擎" },
-//         { value: 735, name: "直接访问" },
-//         { value: 580, name: "电子邮件" },
-//         { value: 484, name: "联盟广告" },
-//         { value: 300, name: "视频广告" },
-//     ];
-// };
 
 // 添加节流控制
 // TODO：是否需要封装throttle放到utils.ts？
@@ -340,11 +319,8 @@ const seekOldPlans = useDebounceFn(async () => {
 
 // 拖拽 / 尺寸改变相关逻辑
 const position = ref({ x: 100, y: 100 });
-const panelSize = ref({ width: 400, height: 300 });
 const isDragging = ref(false);
-const isResizing = ref(false);
 const dragOffset = ref({ x: 0, y: 0 });
-const resizeDirection = ref(null);
 const panel = ref(null);
 
 const startDrag = (e) => {
@@ -399,7 +375,7 @@ onBeforeUnmount(() => {
     padding: 0 20px;
     box-sizing: border-box;
 
-    z-index: 999;
+    z-index: 99999;
     user-select: none;
     border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -413,7 +389,6 @@ onBeforeUnmount(() => {
     -ms-overflow-style: none; /* IE & Edge */
 
     // 子组件排列
-    // display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;

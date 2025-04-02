@@ -64,18 +64,32 @@ export const apiKey: string = selectedModel.apiKey;
 type Platform = {
     name: string;
     URL: string;
+    URLForMatch?: string;
+    description: string;
+    icon: string;
 };
-export const validPlatforms: Platform[] = [
+
+import woyaozuojihuaIcon from "@/assets/favicons/woyaozuojihua.png";
+import anydoIcon from "@/assets/favicons/anydo.png";
+import mondayIcon from "@/assets/favicons/monday.png";
+export const allPlatforms: Platform[] = [
     {
-        name: "woyaozuojihua",
+        name: "我要做计划",
         URL: "https://todos.woyaozuojihua.com/pc/#/view",
+        description: "简洁高效的中文计划管理工具",
+        icon: woyaozuojihuaIcon,
     },
     {
-        name: "anydo",
+        name: "Any.do",
         URL: "https://app.any.do/calendar",
+        description: "国际化的任务与日历管理工具",
+        icon: anydoIcon,
     },
     {
-        name: "monday",
-        URL: "monday.com/boards/",
+        name: "Monday",
+        URL: "https://monday.com",
+        URLForMatch: "monday.com/boards/",
+        description: "专业的项目与团队协作平台",
+        icon: mondayIcon,
     },
 ];
