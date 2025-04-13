@@ -1,48 +1,154 @@
-# DailyPlanExtension
+# 🚀 DailyPlanExtension 项目文档
 
-## 环境配置
+---
 
-1. `npm install`安装依赖
-2. `npm run dev`运行
+## 📌 项目简介
 
--   技术栈：WXT + Vue 3 + TypeScript
--   建议开发 IDE：VSCode / Cursor
+### 📘 项目描述
 
-## Components 组件
+DailyPlanExtension 是一款基于 **WXT + Vue3** 框架，结合 **DeepSeek V3 大模型** 的智能浏览器插件。它聚焦于提升用户的时间管理效率与任务执行能力。
 
-### 1. [Welcome.vue](./components/Welcome.vue)
+### 🎯 项目背景
 
-入口组件，包含各功能入口。
+在当代社会，越来越多人依赖计划类工具实现高效生活。本项目结合 AI 的数据分析与交互能力，打造“AI + 工具”融合的插件，帮助用户个性化制定、优化并坚持每日计划。
 
-### 2. [AIResponse.vue](./components/AIResponse.vue)
+---
 
+## 💡 项目亮点
+
+### 📊 多维度数据可视化
+
+表格、饼图等形式清晰展示用户计划数据，便于理解与对比。
+
+### 🧠 AI 驱动的计划优化
+
+借助 DeepSeek V3 实现计划智能评估与优化建议推送。
+
+### 🎯 个性化推荐与正向激励
+
+构建用户画像，结合行为预测，定制高匹配度计划推荐。
+
+### 🧩 全周期计划管理
+
+覆盖过去、现在、未来三阶段，提供整体节奏调控策略。
+
+### 🌐 跨平台适配支持
+
+接入“我要做计划”、Any.do、Monday 等主流工具，扩展插件使用场景。
+
+---
+
+## ⚙️ 核心功能
+
+### 🛠 多平台计划抓取
+
+-   ✅ **我要做计划**：基于 DOM 的数据解析
+-   ✅ **Any.do**：OAuth2 授权 + 任务 API 对接
+-   ✅ **Monday**：探索 API 接入可能性
+
+### 🧠 AI 计划分析
+
+-   智能优先级排序
+-   工作 / 休息平衡建议
+-   计划坚持度个性化评估
+
+### 📊 数据可视化
+
+-   使用 ECharts 绘制计划饼图与统计图
+-   支持响应式布局，自适应展示
+
+---
+
+## ✅ 功能概览
+
+### 📅 当月计划分析
+
+-   完成率
+-   任务类型分布
+-   本月个人计划
+-   最近 7 天状态
+-   时间管理效率
+-   计划稳定性
+-   本月成就
+-   主要挑战
+-   总结与建议
+
+### 👤 个人形象刻画
+
+-   时间管理风格
+-   任务完成模式
+-   学习风格
+-   压力应对方式
+-   优劣势分析
+-   习惯一致性
+-   兴趣爱好
+-   社交风格
+-   个人形象总结
+
+### 📆 当日计划优化
+
+-   计划质量
+-   优先级排序
+-   计划分类
+-   建议计划
+-   计划坚持度
+
+### 🔮 明日计划建议
+
+-   明日计划建议
+-   未完成计划跟进
+-   总结与建议
+
+### 📈 我的行为预测
+
+-   良好习惯识别
+-   不良习惯识别
+-   计划瓶颈分析
+-   总结评价
+
+### 🧭 陈旧计划寻迹
+
+-   曾经坚持的计划
+-   优先恢复建议
+-   总结与建议
+
+---
+
+## 🧪 使用指南
+
+### ✅ 环境配置
+
+\`\`\`bash
+npm install # 安装依赖
+npm run dev # 本地启动
+\`\`\`
+
+### 🧰 技术栈
+
+-   📦 框架：WXT（浏览器扩展框架）
+-   🖼 前端：Vue 3 + TypeScript
+-   📊 可视化：ECharts
+-   🧠 模型服务：DeepSeek V3
+-   🧑‍💻 推荐开发工具：VSCode / Cursor
+
+### 🧩 组件说明
+
+#### 🔑 核心组件
+
+**1. Welcome.vue**  
+主入口组件，包含各功能入口。
+
+**2. AIResponse.vue**  
 AI 文本型响应的显示组件。每条响应文本分别被渲染为气泡框。
 
-### 3. [DetailSections.vue](./components/DetailSections.vue)
+**3. DetailSections.vue**  
+AI JSON 型响应的通用显示组件。每个对象被渲染为以键名为标题，值为正文的气泡框。  
+TODO：基于各个功能分别设计各自组件，以本组件为模板继承。
 
-AI json 型响应的通用显示组件。每个对象被渲染为以键名为标题，值为正文的气泡框。
-TODO：基于各个功能分别设计各自组件，以本组件为或模版继承。
+**4. PieChart.vue**  
+实现数据可视化，图形组件（饼图）封装在 PieChart.vue 中，通过父组件向子组件传参。
 
-### 4. [Toast.vue](./components/Toast.vue)
-
-自定义提示 Toast。通过在副组件调用内部函数 showToast 实现。有`default`、`success`、`error`三种样式。
-具体实现方式：
-
-```vue
-<template>
-    <Toast ref="toastRef" />
-</template>
-
-<script setup>
-import { ref } from "vue";
-const toastRef = ref(null);
-toastRef.value.showToast("请耐心等待～", "error");
-</script>
-```
-
-### 4. [PieChart.vue](./components/PieChart.vue)
-
-图形组件（饼图）封装在 PieChart.vue 中，通过父组件向子组件传参，使用方法如下：
+使用方式如下：
 
 ```vue
 <template>
@@ -61,415 +167,73 @@ const chartData = ref([
 </script>
 ```
 
-[echarts 官网](https://echarts.apache.org/examples/zh/index.html#chart-type)
+👉 ECharts 官网
 
-## Utils 工具
+#### 🛠 工具组件
 
-### 1. 模型配置与模型切换 [config.ts](./utils/config.ts)
+**Toast.vue**  
+自定义提示 Toast。通过在子组件调用 showToast 实现。有 default、success、error 三种样式。
 
--   封装导出各模型模型名、baseURL、apiKey，便于 API 调用。
--   更换当前模型只需修改`selectModelId`为对应模型 id
+使用示例：
 
-### 2. 提示词内容与相关函数 [prompts.ts](./utils/prompts.ts)
+```vue
+<template>
+    <Toast ref="toastRef" />
+</template>
 
--   构建提示词：将各功能 prompt 与当月全部计划拼接（若为当前组件首次渲染 / 刷新后首次调用 API，否则不再重复拼接计划内容）
-
-    ```ts
-    constructInitPrompt(
-        extraWords: string,
-        allMonthPlans: MonthPlan[],
-        isFirstCall: boolean = true
-    )
-    ```
-
--   提示词对象 contents：产品中全部功能所需 prompt。键名为功能，值为 prompt。
-
-    ```ts
-    contents: Record<string, string> = {
-        systemInitPrompt: `你是由计划分析专家、数据科学家和心理学家组成的智能体，负责对用户计划数据进行多维度分析。`,
-        test: `你是什么模型？请以json格式回答。`,
-    };
-    ```
-
--   现行提示词风格（示例）：
-    ```
-    今天是2025年3月19日，请综合之前和之后的计划内容对我今天（2025年3月19日）的计划进行分析（请分析今日所有计划，无需关注已完成或未完成）。
-    json条目包括：
-    1. planQuality：今日计划是否稍显杂乱无章？如果是，请给予建议（并非优先级，而是计划内容是否合理或欠妥，如何修改）并加以人性化鼓励；如果不是，请加以赞扬；
-    2. priorityOrder：请给出今日所有计划（已完成和未完成都有）最合理的优先级排序方式，并指出建议用时以及建议在一天中完成的时间段，返回一个数组，，数组元素为对象，包含计划内容、优先级、建议完成时段、建议用时，按计划优先级从高到低排序；
-    3. classification：分为工作型和休闲型。给出平衡建议：若工作型远多于休闲型，则提醒适时休息，安排休息时间并建议休息内容；若休闲型远多于工作型，则给出相应建议，提醒不要懈怠等；
-    4. adherence：分析过去坚持的某些计划今日仍有坚持。若有，请给予赞扬；若没有，请适当提醒并给出建议；
-    请以各条目为键名，生成相应内容纯文本为值，返回json格式方便我解析。
-    ```
-    有优化空间
-
-### 3. 工具函数 [utils.ts](./utils/utils.ts)
-
--   获取 json 条目渲染标题与图标
-    ```ts
-    getNameAndIcon(key: string): NameAndIcon | {}
-    ```
-
-## 数据爬取与抓包方式
-
-各平台数据爬取逻辑均封装在 entrypoints/content/get-plan-data 目录，以各平台名为文件名。
-
-数据对象封装格式：
-
-```js
-allMonthPlans: {
-    date: "2025年3月25日",
-    day: 25,
-    lunar: "廿六",      // 可选
-    plansFinished: [
-        "我要做计划浏览器插件软著材料准备",
-        "静安hang out",
-        "用户交互技术ppt+视频",
-        "我要做计划浏览器插件开发",
-        "看《难哄》/《阴阳侦探》"
-    ],
-    plansUnfinished: [
-        "旅行全能王小程序开发",
-        "TOEFL听力",
-        "跑步1.2km",
-        "7:00-7:10起床",
-        "TOEFL口语"
-    ],
-}
+<script setup>
+import { ref } from "vue";
+const toastRef = ref(null);
+toastRef.value.showToast("请耐心等待～", "error");
+</script>
 ```
 
-### 【我要做计划】
+---
 
-基准页：https://todos.woyaozuojihua.com/pc/#/view
+## 🧠 学术支撑
 
-> 由于我要做计划网站对计划增删改查的相关请求报文负载被加密，并且源码进行了 js 混淆，难以通过 js 逆向获取原始报文模拟请求，故直接通过页面 DOM 元素爬取计划内容、封装对象。
+### 📚 项目理论支撑与市场分析
 
-#### 1. 数据爬取、清洗与封装
+#### 🎯 目标设定理论
 
--   月份 DOM 元素选择器：`querySelector(".current-date")`
--   计划表格 td 元素选择器：`querySelectorAll("#app .el-calendar__body table tbody td.current")`
--   td 中日期元素选择器：`querySelector("div > div > div.date-title > div.day > div.checked")`
--   td 中农历元素选择器：`querySelector("div > div > div.date-title > div.lunar")`
--   td 中计划元素选择器：`querySelectorAll("div > div > div.date-lists > div.list")`
--   遍历 td 元素，拿到日期字符串、农历信息字符串、已完成计划数组、未完成计划数组（通过样式类`.complete`区分），封装为对象
+-   动态校准：行为-目标实时比对 → 智能优化
+-   功能实现：
+    -   任务拆解（宏目标 → 微目标）
+    -   可视化追踪看板
+    -   自适应校准算法
 
-### 【Any.do】
+#### 🧠 IT 身份三维模型
 
-基准页：https://app.any.do/calendar
+-   工具依赖 + 情感能量 + 人机关联 三维驱动
+-   插件设计应用：
+    -   行为画像生成技术
+    -   正反馈强化循环（成就语言体系）
+    -   个性化效能仪表盘
 
-> 已通过抓包发现该页面对于计划的增删改查相关接口的报文字段获取、封装及处理方式，拟通过 ofetch 模拟请求获取相关数据，并基于 AI 建议自动化增删计划。
+#### 💡 行为改变阻力机制
 
-#### 1. http 请求分析
+-   突破惯性：推-拉-锚模型 + <5% 微干预
+-   插件策略：
+    -   损失规避设计（未完成成本可视化）
+    -   社交承诺绑定（关系网络监督）
 
-大多数获取数据（计划、用户信息等）的请求都为 GET 请求，但认证方式有所不同：
+### 🏛 政策合规性支撑
 
--   部分较为简单的请求直接在 Header 中添加私密键值对`x-anydo-auth: [your-auth]`即可完成认证
--   安全性要求较高的请求需提前通过`fetch`接口获取`accessToken`，在 Header 添加 Bearer Token 认证
+-   国家战略：符合《新一代 AI 发展规划》民生场景要求
+-   社会价值：提升数字公民效能（响应《2021-2035 AI 创新行动》）
 
-#### 2. 接口
+### 📈 竞品市场数据分析
 
-##### 获取用户 id、name 及 accessToken
+| 产品       | 总下载量   | 月活峰值 | 用户增长趋势                    |
+| ---------- | ---------- | -------- | ------------------------------- |
+| 我要做计划 | 2845.7 万+ | 1.4 万+  | 2022 年上线 → 3 年 300 万+ 用户 |
+| PingCode   | -          | 284.6 万 | 企业级稳定增长                  |
+| Todoist    | -          | 1663 万  | 国际领先，用户基数庞大          |
+| 印象笔记   | -          | 149.3 万 | 工具型产品，平稳增长            |
 
--   接口 URL：https://sm-prod4.any.do/me/calendar_providers/fetch
--   请求方式：GET
--   认证：Header 中添加私密键值对`x-anydo-auth: [your-auth]`
--   `x-anydo-auth`位置：`localStorage.auth`
--   响应示例：
-    ```json
-    [
-        {
-            "id": "9212xxxxxxxxxx",
-            "provider": "google",
-            "name": "xxxxxxx",
-            "accessToken": "ya29.a0AeXxxxxxxxxxx",
-            "config": null,
-            "externalId": "112016xxxxxxxxx"
-        }
-    ]
-    ```
+#### 🔍 关键发现（以“我要做计划”为例）
 
-##### 获取 events（暂时无用）
+-   平均使用时长：3 分 32 秒
+-   用户增长渠道：小红书为主要流量来源
 
--   接口 URL：https://www.googleapis.com/calendar/v3/calendars/${name}/events
--   请求方式：GET
--   认证：Header 中添加 Bearer Token
--   Bearer Token 获取方式：上面`accessToken`
--   响应示例：
-    ```json
-    {
-        "kind": "calendar#events",
-        "etag": "\"p33fv5bkaxxxxxo0o\"",
-        "summary": "1594751xxxxxxxxx",
-        "description": "",
-        "updated": "2025-03-25T08:15:02.699Z",
-        "timeZone": "UTC",
-        "accessRole": "owner",
-        "defaultReminders": [
-            {
-                "method": "popup",
-                "minutes": 30
-            }
-        ],
-        "nextSyncToken": "CN_yrorlpIxxxxxxxxAIo24mI4AI=",
-        "items": [
-            {
-                "kind": "calendar#event",
-                "etag": "\"348xxxxxxx230\"",
-                "id": "8qdf5qe4abxxxxx75s",
-                "status": "confirmed",
-                "htmlLink": "https://www.google.com/calendar/event?eid=OHFkZjVxZTRhYms4dW51Z3ZsY29tazI3NXMgMTU5NDc1MxxxxxxxxxQG0",
-                "created": "2025-03-25T02:46:25.000Z",
-                "updated": "2025-03-25T02:46:25.343Z",
-                "summary": "TOEFL复习",
-                "creator": {
-                    "email": "159xxxxxxxxxx",
-                    "self": true
-                },
-                "organizer": {
-                    "email": "159xxxxxxxxxx",
-                    "self": true
-                },
-                "start": {
-                    "date": "2025-03-27"
-                },
-                "end": {
-                    "date": "2025-03-28"
-                },
-                "iCalUID": "8qdf5qe4abkxxxxxxxm",
-                "sequence": 0,
-                "reminders": {
-                    "useDefault": false,
-                    "overrides": [
-                        {
-                            "method": "popup",
-                            "minutes": 30
-                        }
-                    ]
-                },
-                "eventType": "default"
-            }
-        ]
-    }
-    ```
-
-##### 获取 task_id
-
--   接口 URL：https://sm-prod4.any.do/api/v14/me/bg_sync
--   请求方式：GET
--   认证：Header 中添加私密键值对`x-anydo-auth: [your-auth]`
--   `x-anydo-auth`位置：`localStorage.auth`
--   响应示例：
-
-    ```json
-    {
-        "task_id": "4be4dxxxxx8-972-7c719xxxxxxx",
-        "total_timeout": 60,
-        "polling_interval": 1
-    }
-    ```
-
-##### 获取 tasks
-
--   接口 URL：https://sm-prod4.any.do/me/bg_sync_result/${task_id}
--   请求方式：GET
--   认证：Header 中添加私密键值对`x-anydo-auth: [your-auth]`
--   `x-anydo-auth`位置：`localStorage.auth`
--   响应示例：
-
-    ```json
-    {
-        "models": {
-            "attachment": {
-                "statusCode": 0,
-                "items": []
-            },
-            "groceryCard": {
-                "statusCode": 0,
-                "items": []
-            },
-            "cardChecklist": {
-                "statusCode": 0,
-                "items": []
-            },
-            "user": {
-                "statusCode": 0,
-                "items": [
-                    // 字段无关且过于复杂，这里不显示
-                ]
-            },
-            "cardAttachment": {
-                "statusCode": 0,
-                "items": []
-            },
-            "task": {
-                "statusCode": 0,
-                "items": [
-                    {
-                        "id": "r0mxxxxxxE50XsSt3",
-                        "note": "",
-                        "alert": {
-                            "type": "OFFSET",
-                            "offset": 0,
-                            "customTime": 0,
-                            "repeatDays": null,
-                            "repeatEndsOn": null,
-                            "repeatEndType": "REPEAT_END_NEVER",
-                            "repeatInterval": null,
-                            "repeatStartsOn": null,
-                            "repeatMonthType": null,
-                            "repeatNextOccurrence": null,
-                            "repeatEndsAfterOccurrences": null
-                        },
-                        "title": "玩游戏",
-                        "labels": null,
-                        "shared": false,
-                        "status": "UNCHECKED",
-                        "dueDate": 1743123600000,
-                        "latitude": null,
-                        "position": "7ffc",
-                        "priority": "Normal",
-                        "subTasks": [],
-                        "longitude": null,
-                        "assignedTo": "1594751xxxxxxxxl.com",
-                        "categoryId": "U5IMcJAL5z9rWsOvQsh8v4mX",
-                        "creationDate": 1742889618000,
-                        "globalTaskId": "r0mUWDgUhbQm98zPE50XsSt3",
-                        "participants": [],
-                        "lastUpdateDate": 1742890329334,
-                        "noteUpdateTime": 1742889617633,
-                        "alertUpdateTime": 1742889617635,
-                        "repeatingMethod": "TASK_REPEAT_OFF",
-                        "titleUpdateTime": 1742889617633,
-                        "labelsUpdateTime": null,
-                        "statusUpdateTime": 1742890329334,
-                        "dueDateUpdateTime": 1742889617633,
-                        "chatConversationId": null,
-                        "parentGlobalTaskId": null,
-                        "positionUpdateTime": 1742890329334,
-                        "priorityUpdateTime": 1742889617634,
-                        "globalSharedGroupId": null,
-                        "assignedToUpdateTime": 1742889625353,
-                        "categoryIdUpdateTime": 1742889617632,
-                        "chatConversationIdUpdateTime": null
-                    },
-                    {
-                        "id": "DLROTAxxxxHocXwC",
-                        "note": "",
-                        "alert": null,
-                        "title": "吃饭",
-                        "labels": null,
-                        "shared": false,
-                        "status": "UNCHECKED",
-                        "dueDate": 0,
-                        "latitude": null,
-                        "position": "7ff8",
-                        "priority": "Normal",
-                        "subTasks": [],
-                        "longitude": null,
-                        "assignedTo": "1594751xxxxxxxxl.com",
-                        "categoryId": "U5IMcJAL5z9rWsOvQsh8v4mX",
-                        "creationDate": 1742890380000,
-                        "globalTaskId": "DLROTAJwvZpBS90Y7eHocXwC",
-                        "participants": [],
-                        "lastUpdateDate": 1742890380093,
-                        "noteUpdateTime": 1742890380093,
-                        "alertUpdateTime": null,
-                        "repeatingMethod": "TASK_REPEAT_OFF",
-                        "titleUpdateTime": 1742890380093,
-                        "labelsUpdateTime": null,
-                        "statusUpdateTime": 1742890380093,
-                        "dueDateUpdateTime": 1742890380093,
-                        "chatConversationId": null,
-                        "parentGlobalTaskId": null,
-                        "positionUpdateTime": 1742890380093,
-                        "priorityUpdateTime": 1742890380093,
-                        "globalSharedGroupId": null,
-                        "assignedToUpdateTime": null,
-                        "categoryIdUpdateTime": 1742890380091,
-                        "chatConversationIdUpdateTime": null
-                    }
-                ]
-            },
-            "userCustomView": {
-                "statusCode": 0,
-                "items": []
-            },
-            "card": {
-                "statusCode": 0,
-                "items": []
-            },
-            "groceryBoard": {
-                "statusCode": 0,
-                "items": []
-            },
-            "customFieldValue": {
-                "statusCode": 0,
-                "items": []
-            },
-            "grocerySection": {
-                "statusCode": 0,
-                "items": []
-            },
-            "sharedMember": {
-                "statusCode": 0,
-                "items": []
-            },
-            "category": {
-                // 字段无关且过于复杂，这里不显示
-            },
-            "customField": {
-                "statusCode": 0,
-                "items": []
-            },
-            "section": {
-                "statusCode": 0,
-                "items": []
-            },
-            "space": {
-                "statusCode": 0,
-                "items": []
-            },
-            "tag": {
-                "statusCode": 0,
-                "items": []
-            },
-            "board": {
-                "statusCode": 0,
-                "items": []
-            },
-            "myDayEntry": {
-                "statusCode": 0,
-                "items": []
-            },
-            "checklistItem": {
-                "statusCode": 0,
-                "items": []
-            },
-            "label": {
-                "statusCode": 0,
-                "items": [
-                    {
-                        "id": "vREueQYxxxxx==",
-                        "name": "Priority",
-                        "color": "#f9d21f",
-                        "isDeleted": false,
-                        "isPredefined": true,
-                        "lastUpdateDate": 1742870691475
-                    }
-                ]
-            }
-        },
-        "lastUpdateDate": 1742891365288,
-        "userInfo": {
-            "id": "9mLPmwxxxxxlu_Q==",
-            "name": "Charlie. BU",
-            "currentUserSpaces": []
-        }
-    }
-    ```
-
-## 文档更新时间
-
--   2025.03.25：卜天
--   2025.03.21：陈奕名
--   2025.03.19：卜天
+---
