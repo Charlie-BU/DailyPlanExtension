@@ -16,15 +16,19 @@
     },
     "dependencies": {
         "@vueuse/core": "^12.5.0",
+        "echarts": "^5.6.0",
         "ofetch": "^1.4.1",
+        "openai": "^4.87.3",
         "vant": "^4.9.17",
         "vue": "^3.5.12"
     },
     "devDependencies": {
         "@types/chrome": "^0.0.280",
         "@wxt-dev/module-vue": "^1.0.1",
+        "sass-embedded": "^1.85.1",
         "typescript": "5.6.3",
         "vue-tsc": "^2.1.10",
         "wxt": "^0.19.13"
-    }
+    },
+    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

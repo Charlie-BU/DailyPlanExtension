@@ -1,0 +1,72 @@
+Date : 2025-03-23 22:57:50
+Directory : /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension
+Total : 28 files,  12057 codes, 52 comments, 316 blanks, all 12425 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          2 |      9,382 |          0 |          2 |      9,384 |
+| vue                |          8 |      1,754 |         17 |        207 |      1,978 |
+| Markdown           |          4 |        421 |          0 |         56 |        477 |
+| TypeScript         |          4 |        255 |         12 |         18 |        285 |
+| JavaScript         |          4 |        130 |         22 |         14 |        166 |
+| CSS                |          1 |         71 |          0 |         10 |         81 |
+| XML                |          2 |         16 |          0 |          2 |         18 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| Python             |          1 |         12 |          1 |          5 |         18 |
+| JSON with Comments |          1 |          3 |          0 |          1 |          4 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                             | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                |         28 |     12,057 |         52 |        316 |     12,425 |
+| . (Files)                                                                                        |          4 |      9,402 |          2 |          5 |      9,409 |
+| HTML-crawling                                                                                    |          1 |         12 |          1 |          5 |         18 |
+| assets                                                                                           |          1 |          1 |          0 |          1 |          2 |
+| components                                                                                       |          7 |      1,751 |         17 |        204 |      1,972 |
+| docs                                                                                             |          4 |        421 |          0 |         56 |        477 |
+| entrypoints                                                                                      |          7 |        217 |         22 |         28 |        267 |
+| entrypoints/background                                                                           |          1 |         37 |          3 |          3 |         43 |
+| entrypoints/content                                                                              |          2 |         86 |         13 |          7 |        106 |
+| entrypoints/popup                                                                                |          4 |         94 |          6 |         18 |        118 |
+| public                                                                                           |          1 |         15 |          0 |          1 |         16 |
+| utils                                                                                            |          3 |        238 |         10 |         16 |        264 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                         | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/HTML-crawling/main.py             | Python             |         12 |          1 |          5 |         18 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/assets/vue.svg                    | XML                |          1 |          0 |          1 |          2 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/AIResponse.vue         | vue                |        147 |          3 |         18 |        168 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/DetailSections.vue     | vue                |        147 |          8 |         14 |        169 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/PieChart.vue           | vue                |         77 |          0 |          9 |         86 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/Test.vue               | vue                |         97 |          0 |         17 |        114 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/Toast.vue              | vue                |         57 |          0 |         12 |         69 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/Welcome.vue            | vue                |        665 |          1 |         72 |        738 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/components/WelcomeOriginal.vue    | vue                |        561 |          5 |         62 |        628 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/README.md                    | Markdown           |         87 |          0 |         35 |        122 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/website-activity-analysis.md | Markdown           |         36 |          0 |         10 |         46 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/提示词优化记录.md                   | Markdown           |        217 |          0 |         10 |        227 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/docs/提示词流程.md                     | Markdown           |         81 |          0 |          1 |         82 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/background/index.js   | JavaScript         |         37 |          3 |          3 |         43 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/content/get-plans.js  | JavaScript         |         45 |          5 |          3 |         53 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/content/index.js      | JavaScript         |         41 |          8 |          4 |         53 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/App.vue         | vue                |          3 |          0 |          3 |          6 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/index.html      | HTML               |         13 |          0 |          1 |         14 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/main.js         | JavaScript         |          7 |          6 |          4 |         17 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/entrypoints/popup/style.css       | CSS                |         71 |          0 |         10 |         81 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/package-lock.json                 | JSON               |      9,348 |          0 |          1 |      9,349 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/package.json                      | JSON               |         34 |          0 |          1 |         35 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/public/wxt.svg                    | XML                |         15 |          0 |          1 |         16 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/tsconfig.json                     | JSON with Comments |          3 |          0 |          1 |          4 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/utils/config.ts                   | TypeScript         |         50 |          7 |          5 |         62 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/utils/prompts.ts                  | TypeScript         |        136 |          3 |          8 |        147 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/utils/utils.ts                    | TypeScript         |         52 |          0 |          3 |         55 |
+| /Users/mac/Desktop/Programming/第十六届服务外包创新大赛/DailyPlanExtension/wxt.config.ts                     | TypeScript         |         17 |          2 |          2 |         21 |
+| Total                                                                                            |                    |     12,057 |         52 |        316 |     12,425 |
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

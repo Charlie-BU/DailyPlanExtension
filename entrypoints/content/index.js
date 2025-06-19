@@ -1,7 +1,19 @@
 import { createApp, ref } from "vue";
-import Test from "@/components/Test.vue";
-import * as getData from "./get-plans";
 import { useDebounceFn } from "@vueuse/core/index.cjs";
+
+import Welcome from "@/components/Welcome.vue";
+import * as woyaozuojihua from "./get-plan-data/woyaozuojihua";
+import * as anydo from "./get-plan-data/anydo";
+import * as monday from "./get-plan-data/monday";
+import { allPlatforms } from "../../utils/config";
+
+// 判断当前URL是否在生效URL列表中
+const isValidURL = (currURL) => {
+    const matchedPlatform = allPlatforms.find((each) =>
+        currURL.includes(each?.URLForMatch || each.URL)
+    );
+    return matchedPlatform ? matchedPlatform.name : null;
+};
 
 export default defineContentScript({
     matches: ["*://*/*"],
@@ -9,23 +21,35 @@ export default defineContentScript({
         当匹配的网页完成加载后（页面 DOM 构建完成时）
         当用户导航到匹配的新页面时
         当页面从历史记录中恢复时（比如用户点击浏览器的后退按钮）*/
-    main(ctx) {
-        const data = ref([]);
-        // 防抖
-        const updateData = useDebounceFn(() => {
-            data.value = getData.getAllPlansThisMonth();
-        }, 500);
+    async main(ctx) {
+        const currPlatform = isValidURL(window.location.href);
+        if (!currPlatform) return;
 
-        const observer = new MutationObserver(updateData);
-        observer.observe(document.body, { childList: true, subtree: true });
+        const allMonthPlans = ref([]);
 
-        // console.log(data.value);
-        // 组件挂载
+        if (currPlatform === "我要做计划") {
+            const updateData = useDebounceFn(() => {
+                allMonthPlans.value = woyaozuojihua.getAllPlansThisMonth();
+            }, 500);
+            const observer = new MutationObserver(updateData);
+            observer.observe(document.body, { childList: true, subtree: true });
+        } else if (currPlatform === "Any.do") {
+            const tasks = await anydo.getAllTasks();
+            allMonthPlans.value = tasks;
+        } else if (currPlatform === "Monday") {
+            const tasks = await monday.getAllTasks();
+            allMonthPlans.value = tasks;
+        }
         const ui = createIntegratedUi(ctx, {
             position: "inline",
             anchor: "body",
-            onMount: (container) => {
-                const app = createApp(Test, { testData: data }); // 传入数组值而不是ref对象
+            onMount: async (container) => {
+                const app = createApp(Welcome, {
+                    allData: {
+                        status: 200,
+                        allMonthPlans: allMonthPlans, // ref 数据
+                    },
+                });
                 app.mount(container);
                 return app;
             },
