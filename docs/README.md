@@ -118,10 +118,10 @@ DailyPlanExtension 是一款基于 **WXT + Vue3** 框架，结合 **DeepSeek V3 
 
 ### ✅ 环境配置
 
-\`\`\`bash
+```bash
 npm install # 安装依赖
 npm run dev # 本地启动
-\`\`\`
+```
 
 ### 🧰 技术栈
 
